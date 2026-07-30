@@ -71,12 +71,24 @@ The package is pre-1.0 — until 0.1.0 is tagged, depend on `branch: "main"` rat
 
 ## Architecture
 
-Two library products: the umbrella source target and a Test Support spine.
+Twelve library products: an umbrella, ten subject-domain sub-products, and a Test Support spine.
 
 | Product | When to import | What's in it |
 |---------|---------------|--------------|
-| `Collection Primitives` | Default for application code | The protocol family (`Collection.Protocol`, `Collection.Bidirectional`, `Collection.Access.Random`, `Collection.Clearable`, `Collection.Remove.Last`, `Collection.Slice.Protocol`), the automatic fluent surface (`.forEach`, `.count`, `.min`, `.max`, `.remove`, `.slice`), the `Collection.Rotated` view, and stdlib bridges to `Swift.Collection` / `Swift.RandomAccessCollection` for `Copyable` conformers. The package re-exports its external dependencies (`Comparison_Primitives`, `Index_Primitives`, `Order_Primitives`, `Property_Primitives`, and `Iterable`) so a single `import Collection_Primitives` brings the full surface into scope. |
+| `Collection Primitives` | Default for application code | Umbrella that re-exports every sub-product below. The protocol family (`Collection.Protocol`, `Collection.Bidirectional`, `Collection.Access.Random`, `Collection.Clearable`, `Collection.Remove.Last`, `Collection.Slice.Protocol`), the automatic fluent surface (`.forEach`, `.count`, `.min`, `.max`, `.remove`, `.slice`), the `Collection.Rotated` view, and stdlib bridges to `Swift.Collection` / `Swift.RandomAccessCollection` for `Copyable` conformers. The package re-exports its external dependencies (`Comparison_Primitives`, `Index_Primitives`, `Order_Primitives`, `Property_Primitives`, and `Iterable`) so a single `import Collection_Primitives` brings the full surface into scope. |
+| `Collection Protocol Primitives` | Narrow import | The root `Collection.Protocol` and its associated types. |
+| `Collection Bidirectional Primitives` | Narrow import | `Collection.Bidirectional`, adding `index(before:)`. |
+| `Collection Access Random Primitives` | Narrow import | `Collection.Access.Random`, adding O(1) index arithmetic. |
+| `Collection Min Primitives` | Narrow import | The `.min` fluent surface. |
+| `Collection Max Primitives` | Narrow import | The `.max` fluent surface. |
+| `Collection Remove Primitives` | Narrow import | `Collection.Remove.Last` and the `.remove` fluent surface. |
+| `Collection Slice Primitives` | Narrow import | `Collection.Slice.Protocol` and the `.slice` fluent surface. |
+| `Collection Rotated Primitives` | Narrow import | The `Collection.Rotated` view. |
+| `Collection Namespace Primitives` | Narrow import | The shared `Collection` namespace enum. |
+| `Collection Primitives Standard Library Integration` | Narrow import | The stdlib bridges to `Swift.Collection` / `Swift.RandomAccessCollection` for `Copyable` conformers. |
 | `Collection Primitives Test Support` | Test targets | Fixtures and re-exports for downstream test consumers. Re-exports the umbrella plus `Index Primitives Test Support`. |
+
+`Collection Primitives` is the supported default for consumer code — the ten subject-domain products above exist to keep a dependency narrow and are implementation details of the umbrella, not required reading to use the package. `Collection Primitives Test Support` is the only other product intended for direct import, and only from test targets.
 
 Foundation-free. No concurrency surface. No platform conditionals.
 
