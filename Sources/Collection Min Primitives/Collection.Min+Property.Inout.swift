@@ -93,7 +93,10 @@ where
 
 /// Property.Inout extensions for finding minimum element on collections with Copyable elements.
 extension Property.Inout
-where Base: Collection.`Protocol` & ~Copyable, Base.Index: Escapable, Base.Element: Copyable, Tag == Collection.Min {
+where
+    Base: Collection.`Protocol` & ~Copyable, Base.Index: Escapable, Base.Element: Copyable,
+    Tag == Collection.Min
+{
 
     /// Find minimum element using comparator via `.min(by:)`.
     ///

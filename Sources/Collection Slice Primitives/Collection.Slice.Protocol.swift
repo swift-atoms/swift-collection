@@ -32,7 +32,8 @@ extension Collection.Slice {
     /// let prefix = collection[..<endIndex]     // PartialRangeUpTo
     /// let suffix = collection[startIndex...]    // PartialRangeFrom
     /// ```
-    public protocol `Protocol`: Collection.`Protocol` & ~Copyable where Index: Swift.Comparable & Swift.Escapable {
+    public protocol `Protocol`: Collection.`Protocol` & ~Copyable
+    where Index: Swift.Comparable & Swift.Escapable {
         /// Accesses a contiguous sub-range of the collection.
         ///
         /// Returns `Self` — this is a self-slicing collection.
