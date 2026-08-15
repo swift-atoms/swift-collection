@@ -93,7 +93,10 @@ where
 
 /// Property.Inout extensions for finding maximum element on collections with Copyable elements.
 extension Property.Inout
-where Base: Collection.`Protocol` & ~Copyable, Base.Index: Escapable, Base.Element: Copyable, Tag == Collection.Max {
+where
+    Base: Collection.`Protocol` & ~Copyable, Base.Index: Escapable, Base.Element: Copyable,
+    Tag == Collection.Max
+{
 
     /// Find maximum element using comparator via `.max(by:)`.
     ///
