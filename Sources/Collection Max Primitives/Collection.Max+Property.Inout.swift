@@ -1,5 +1,5 @@
 public import Order_Primitives
-public import Property_Primitives
+internal import Property_Primitives
 
 // MARK: - Universal index-based max (works with ~Copyable elements)
 
@@ -62,33 +62,6 @@ where
     }
 }
 
-#if swift(<6.4)
-    /// Convenience `max.index()` for `Swift.Comparable` elements.
-    ///
-    /// Gated to Swift <6.4 because under 6.4+ `Comparison.Protocol` is a typealias
-    /// to `Swift.Comparable` (SE-0499), making this extension a duplicate of the
-    /// `Comparison.Protocol` one above. Under 6.4+, types conforming to
-    /// `Swift.Comparable` automatically satisfy the `Comparison.Protocol`
-    /// extension's constraint.
-    extension Property.Inout
-    where
-        Base: Collection.`Protocol` & ~Copyable,
-        Base.Index: Escapable,
-        Base.Element: Swift.Comparable,
-        Tag == Collection.Max
-    {
-
-        /// Find index of maximum element using natural ordering via `.max.index()`.
-        ///
-        /// - Returns: The index of the maximum element, or `nil` if empty.
-        @_disfavoredOverload
-        @inlinable
-        public func index() -> Base.Index? {
-            index(by: .ascending)
-        }
-    }
-#endif
-
 // MARK: - Copyable element max value (returns Element via index + subscript)
 
 /// Property.Inout extensions for finding maximum element on collections with Copyable elements.
@@ -142,34 +115,3 @@ where
         self(by: .ascending)
     }
 }
-
-#if swift(<6.4)
-    /// Property.Inout extensions for finding maximum element on collections with Swift.Comparable elements.
-    ///
-    /// Gated to Swift <6.4 — see the matching `index()` overload above for the
-    /// SE-0499 unification rationale.
-    extension Property.Inout
-    where
-        Base: Collection.`Protocol` & ~Copyable,
-        Base.Index: Escapable,
-        Base.Element: Copyable & Swift.Comparable,
-        Tag == Collection.Max
-    {
-
-        /// Find maximum element using natural ordering via `.max()`.
-        ///
-        /// Returns the maximum element according to natural ascending order, or `nil` if empty.
-        ///
-        /// ```swift
-        /// var names = MyContainer(["Charlie", "Alice", "Bob"])
-        /// names.max()  // Optional("Charlie")
-        /// ```
-        ///
-        /// - Returns: The maximum element, or `nil` if the collection is empty.
-        @_disfavoredOverload
-        @inlinable
-        public func callAsFunction() -> Base.Element? {
-            self(by: .ascending)
-        }
-    }
-#endif
