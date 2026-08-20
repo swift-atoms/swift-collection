@@ -49,7 +49,7 @@ extension Property.Inout
 where
     Base: Collection.`Protocol` & ~Copyable,
     Base.Index: Escapable,
-    Base.Element: Comparison.`Protocol`,
+    Base.Element: Comparison.`Protocol` & SendableMetatype,
     Tag == Collection.Min
 {
 
@@ -67,7 +67,9 @@ where
 /// Property.Inout extensions for finding minimum element on collections with Copyable elements.
 extension Property.Inout
 where
-    Base: Collection.`Protocol` & ~Copyable, Base.Index: Escapable, Base.Element: Copyable,
+    Base: Collection.`Protocol` & ~Copyable,
+    Base.Index: Escapable,
+    Base.Element: Copyable,
     Tag == Collection.Min
 {
 
@@ -96,7 +98,7 @@ extension Property.Inout
 where
     Base: Collection.`Protocol` & ~Copyable,
     Base.Index: Escapable,
-    Base.Element: Copyable & Comparison.`Protocol`,
+    Base.Element: Copyable & Comparison.`Protocol` & SendableMetatype,
     Tag == Collection.Min
 {
 
