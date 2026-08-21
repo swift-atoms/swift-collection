@@ -56,7 +56,11 @@ extension Collection {
     /// multipass by construction. (The prior `Sequence.Protocol` was renamed to the
     /// top-level `Sequenceable` by the sequencer-refactor and no longer exists.)
     public protocol `Protocol`: Iterable, ~Copyable
-    where Iterator.Element == Element, Iterator.Failure == Never {
+    where
+        Element: ~Copyable,
+        Iterator.Element == Element,
+        Iterator.Failure == Never
+    {
         associatedtype Element: ~Copyable
 
         // `Index` is a `~Escapable`-admitting associatedtype (default `Index<Element>`)
