@@ -12,7 +12,7 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-        // MARK: - Sub-targets
+
         .library(
             name: "Collection Access Random Primitives",
             targets: ["Collection Access Random Primitives"]
@@ -54,13 +54,11 @@ let package = Package(
             targets: ["Collection Slice Primitives"]
         ),
 
-        // MARK: - Umbrella
         .library(
             name: "Collection Primitives",
             targets: ["Collection Primitives"]
         ),
 
-        // MARK: - Test Support
         .library(
             name: "Collection Primitives Test Support",
             targets: ["Collection Primitives Test Support"]
@@ -89,12 +87,11 @@ let package = Package(
         ),
     ],
     targets: [
-        // MARK: - Namespace
+
         .target(
             name: "Collection Namespace Primitives"
         ),
 
-        // MARK: - Protocol
         .target(
             name: "Collection Protocol Primitives",
             dependencies: [
@@ -105,7 +102,6 @@ let package = Package(
             ]
         ),
 
-        // MARK: - Bidirectional
         .target(
             name: "Collection Bidirectional Primitives",
             dependencies: [
@@ -114,7 +110,6 @@ let package = Package(
             ]
         ),
 
-        // MARK: - Access.Random
         .target(
             name: "Collection Access Random Primitives",
             dependencies: [
@@ -124,7 +119,6 @@ let package = Package(
             ]
         ),
 
-        // MARK: - Max
         .target(
             name: "Collection Max Primitives",
             dependencies: [
@@ -134,7 +128,6 @@ let package = Package(
             ]
         ),
 
-        // MARK: - Min
         .target(
             name: "Collection Min Primitives",
             dependencies: [
@@ -144,7 +137,6 @@ let package = Package(
             ]
         ),
 
-        // MARK: - Remove
         .target(
             name: "Collection Remove Primitives",
             dependencies: [
@@ -152,7 +144,6 @@ let package = Package(
             ]
         ),
 
-        // MARK: - Rotated
         .target(
             name: "Collection Rotated Primitives",
             dependencies: [
@@ -161,7 +152,6 @@ let package = Package(
             ]
         ),
 
-        // MARK: - Slice
         .target(
             name: "Collection Slice Primitives",
             dependencies: [
@@ -170,7 +160,6 @@ let package = Package(
             ]
         ),
 
-        // MARK: - Standard Library Integration
         .target(
             name: "Collection Primitives Standard Library Integration",
             dependencies: [
@@ -180,7 +169,6 @@ let package = Package(
             ]
         ),
 
-        // MARK: - Umbrella
         .target(
             name: "Collection Primitives",
             dependencies: [
@@ -197,7 +185,6 @@ let package = Package(
             ]
         ),
 
-        // MARK: - Test Support
         .target(
             name: "Collection Primitives Test Support",
             dependencies: [

@@ -1,5 +1,3 @@
-// Collection.Rotated Tests.swift
-
 import Index_Primitives
 import Index_Primitives_Test_Support
 import Testing
@@ -15,11 +13,7 @@ extension Collection {
     }
 }
 
-// MARK: - Unit
-
 extension Collection.`Rotated Test`.Unit {
-
-    // MARK: - Basic Rotation
 
     @Test
     func `rotation by 0 returns original order`() {
@@ -58,7 +52,6 @@ extension Collection.`Rotated Test`.Unit {
         let original = ["a", "b", "c", "d"]
         let rotated = Collection.Rotated(base: original, startOffset: 5)
 
-        // 5 % 4 = 1, so same as rotation by 1
         #expect(Array(rotated) == ["b", "c", "d", "a"])
     }
 
@@ -67,11 +60,8 @@ extension Collection.`Rotated Test`.Unit {
         let original = [1, 2, 3]
         let rotated = Collection.Rotated(base: original, startOffset: 100)
 
-        // 100 % 3 = 1
         #expect(Array(rotated) == [2, 3, 1])
     }
-
-    // MARK: - Collection Properties
 
     @Test
     func `count matches base count`() {
@@ -96,14 +86,11 @@ extension Collection.`Rotated Test`.Unit {
         #expect(rotated.endIndex == expected)
     }
 
-    // MARK: - RandomAccessCollection
-
     @Test
     func `subscript access at various positions`() {
         let original = ["a", "b", "c", "d", "e"]
         let rotated = Collection.Rotated(base: original, startOffset: 2)
 
-        // Rotated: ["c", "d", "e", "a", "b"]
         let idx0: Index<String> = 0
 
         #expect(rotated[idx0] == "c")
@@ -134,16 +121,11 @@ extension Collection.`Rotated Test`.Unit {
         let original = [1, 2, 3, 4]
         let rotated = Collection.Rotated(base: original, startOffset: .one)
 
-        // Rotated: [2, 3, 4, 1], reversed: [1, 4, 3, 2]
         #expect(Array(rotated.reversed()) == [1, 4, 3, 2])
     }
 }
 
-// MARK: - Edge Case
-
 extension Collection.`Rotated Test`.`Edge Case` {
-
-    // MARK: - Empty Collection
 
     @Test
     func `empty collection rotation`() {
@@ -152,8 +134,6 @@ extension Collection.`Rotated Test`.`Edge Case` {
 
         #expect(rotated.isEmpty)
     }
-
-    // MARK: - Single Element
 
     @Test
     func `single element rotation`() {
@@ -164,11 +144,7 @@ extension Collection.`Rotated Test`.`Edge Case` {
     }
 }
 
-// MARK: - Integration
-
 extension Collection.`Rotated Test`.Integration {
-
-    // MARK: - Composition
 
     @Test
     func `nested rotation`() {
@@ -176,17 +152,13 @@ extension Collection.`Rotated Test`.Integration {
         let rotated1 = Collection.Rotated(base: original, startOffset: .one)
         let rotated2 = Collection.Rotated(base: rotated1, startOffset: .one)
 
-        // First rotation: [2, 3, 4, 1]
-        // Second rotation: [3, 4, 1, 2]
         #expect(Array(rotated2) == [3, 4, 1, 2])
     }
-
-    // MARK: - Different Base Types
 
     @Test
     func `works with ArraySlice`() {
         let array = [0, 1, 2, 3, 4, 5]
-        let slice = array[1..<5]  // [1, 2, 3, 4]
+        let slice = array[1..<5]
         let rotated = Collection.Rotated(base: slice, startOffset: .one)
 
         #expect(Array(rotated) == [2, 3, 4, 1])

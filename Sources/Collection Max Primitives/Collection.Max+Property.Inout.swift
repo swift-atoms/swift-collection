@@ -1,32 +1,9 @@
 public import Order_Primitives
 internal import Property_Primitives
 
-// MARK: - Universal index-based max (works with ~Copyable elements)
-
-// NOTE: The index-returning APIs require `Base.Index: Escapable` — they return a
-// *stored* index, which a `~Escapable` index cannot be. Conformers with the
-// default `Index<Element>` (Escapable) are unaffected; custom `~Escapable`-index
-// types simply don't get max-by-index. (Collection.`Protocol`.Index is a
-// `~Escapable`-admitting associatedtype since the index-suppression change.)
-
-/// Property.Inout extensions for finding maximum element index on `Collection.Protocol` conformers.
 extension Property.Inout
 where Base: Collection.`Protocol` & ~Copyable, Base.Index: Escapable, Tag == Collection.Max {
 
-    /// Find index of maximum element using comparator via `.max.index(by:)`.
-    ///
-    /// Returns the index of the maximum element according to the comparator,
-    /// or `nil` if the collection is empty. Works with `~Copyable` elements.
-    ///
-    /// ```swift
-    /// var container = MyContainer([3, 1, 4, 1, 5])
-    /// if let idx = container.max.index(by: .ascending) {
-    ///     print(container[idx])  // 5
-    /// }
-    /// ```
-    ///
-    /// - Parameter comparator: The comparator defining the ordering.
-    /// - Returns: The index of the maximum element, or `nil` if empty.
     @inlinable
     public func index(by comparator: Order.Comparator<Base.Element>) -> Base.Index? {
         var index = base.value.startIndex
@@ -44,7 +21,6 @@ where Base: Collection.`Protocol` & ~Copyable, Base.Index: Escapable, Tag == Col
     }
 }
 
-/// Convenience `max.index()` for `Comparison.Protocol` elements.
 extension Property.Inout
 where
     Base: Collection.`Protocol` & ~Copyable,
@@ -53,18 +29,12 @@ where
     Tag == Collection.Max
 {
 
-    /// Find index of maximum element using natural ordering via `.max.index()`.
-    ///
-    /// - Returns: The index of the maximum element, or `nil` if empty.
     @inlinable
     public func index() -> Base.Index? {
         index(by: .ascending)
     }
 }
 
-// MARK: - Copyable element max value (returns Element via index + subscript)
-
-/// Property.Inout extensions for finding maximum element on collections with Copyable elements.
 extension Property.Inout
 where
     Base: Collection.`Protocol` & ~Copyable,
@@ -73,19 +43,6 @@ where
     Tag == Collection.Max
 {
 
-    /// Find maximum element using comparator via `.max(by:)`.
-    ///
-    /// Returns the maximum element according to the comparator, or `nil` if empty.
-    /// Requires `Element: Copyable` to return the element by value.
-    ///
-    /// ```swift
-    /// var container = MyContainer([3, 1, 4, 1, 5])
-    /// container.max(by: .ascending)  // Optional(5)
-    /// container.max(by: .descending) // Optional(1)
-    /// ```
-    ///
-    /// - Parameter comparator: The comparator defining the ordering.
-    /// - Returns: The maximum element, or `nil` if the collection is empty.
     @inlinable
     public func callAsFunction(by comparator: Order.Comparator<Base.Element>) -> Base.Element? {
         guard let idx = index(by: comparator) else { return nil }
@@ -93,7 +50,6 @@ where
     }
 }
 
-/// Property.Inout extensions for finding maximum element on collections with Comparison.Protocol elements.
 extension Property.Inout
 where
     Base: Collection.`Protocol` & ~Copyable,
@@ -102,16 +58,6 @@ where
     Tag == Collection.Max
 {
 
-    /// Find maximum element using natural ordering via `.max()`.
-    ///
-    /// Returns the maximum element according to natural ascending order, or `nil` if empty.
-    ///
-    /// ```swift
-    /// var numbers = MyContainer([3, 1, 4, 1, 5])
-    /// numbers.max()  // Optional(5)
-    /// ```
-    ///
-    /// - Returns: The maximum element, or `nil` if the collection is empty.
     @inlinable
     public func callAsFunction() -> Base.Element? {
         self(by: .ascending)

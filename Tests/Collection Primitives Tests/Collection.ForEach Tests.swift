@@ -1,22 +1,9 @@
-// Collection.ForEach Tests.swift
-//
-// `Collection.Protocol` refines `Iterable`, so every collection conformer inherits
-// the multipass iteration terminal `Iterable.forEach`. The dedicated
-// `Collection.ForEach` Property apparatus (and its index-based vs Iterable-routed
-// disambiguation) has been removed: there is now a single `forEach` surface, the
-// inherited one. These tests pin that the inherited `forEach`:
-//   • visits every element in index order;
-//   • is non-destructive (borrowing / multipass — callable repeatedly);
-// resolved through the `Collection.Protocol: Iterable` refinement.
-
 import Collection_Primitives_Test_Support
 import Index_Primitives
 import Iterable
 import Testing
 
 @testable import Collection_Primitives
-
-// MARK: - Suite
 
 extension Collection {
     @Suite
