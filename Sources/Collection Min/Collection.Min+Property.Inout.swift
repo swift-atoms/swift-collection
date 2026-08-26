@@ -1,5 +1,5 @@
-public import Order_Primitives
-internal import Property_Primitives
+public import Order
+internal import Property
 
 extension Property.Inout
 where Base: Collection.`Protocol` & ~Copyable, Base.Index: Escapable, Tag == Collection.Min {

@@ -1,9 +1,9 @@
-import Collection_Primitives_Test_Support
-import Index_Primitives
+import Collection_Test_Support
+import Index
 import Iterable
 import Testing
 
-@testable import Collection_Primitives
+@testable import Collection
 
 extension Collection {
     @Suite

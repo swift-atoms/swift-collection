@@ -1,9 +1,9 @@
-public import Index_Primitives
+public import Index
 
 extension Collection.`Protocol` where Self: ~Copyable {
 
     @inlinable
-    public var count: Index_Primitives.Index<Element>.Count {
+    public var count: Index.Index<Element>.Count {
         borrowing get {
             var i = startIndex
             let end = endIndex
@@ -12,7 +12,7 @@ extension Collection.`Protocol` where Self: ~Copyable {
                 n += .one
                 i = index(after: i)
             }
-            return Index_Primitives.Index<Element>.Count(_unchecked: n)
+            return Index.Index<Element>.Count(_unchecked: n)
         }
     }
 }
