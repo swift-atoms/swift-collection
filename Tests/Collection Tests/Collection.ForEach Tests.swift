@@ -1,5 +1,4 @@
-import Index
-import Iterable
+import Iterator
 import Testing
 
 @testable import Collection

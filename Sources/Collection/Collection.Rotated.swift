@@ -1,89 +1,66 @@
-public import Index
-
 public struct __CollectionRotated<Base: RandomAccessCollection>: RandomAccessCollection {
     @usableFromInline
     let base: Base
 
     @usableFromInline
-    let _offset: Index.Index<Base.Element>.Offset
+    let _offset: Int
 
     @usableFromInline
-    let _count: Index.Index<Base.Element>.Count
+    let _count: Int
 
     @inlinable
-    public init(base: Base, startOffset: Index.Index<Base.Element>.Offset) {
+    public init(base: Base, startOffset: Int) {
         self.base = base
         let count = base.count
-        self._count = Index.Index<Base.Element>.Count(_unchecked: Cardinal(UInt(count)))
+        self._count = count
 
         if base.isEmpty {
-            self._offset = .zero
+            self._offset = 0
         } else {
-
-            let offsetValue = Int(bitPattern: startOffset)
-            let normalizedValue = ((offsetValue % count) + count) % count
-            self._offset = Index.Index<Base.Element>.Offset(normalizedValue)
+            self._offset = ((startOffset % count) + count) % count
         }
     }
 }
 
 extension Collection.Rotated {
 
-    public typealias Index = Index.Index<Base.Element>
+    public typealias Index = Int
 }
 
 extension Collection.Rotated {
 
     @inlinable
-    public var startIndex: Index { .zero }
+    public var startIndex: Index { 0 }
 
     @inlinable
-    public var endIndex: Index { _count.map(Ordinal.init) }
+    public var endIndex: Index { _count }
 
     @inlinable
     public func index(after i: Index) -> Index {
-        i.successor.saturating()
+        i + 1
     }
 
     @inlinable
     public func index(before i: Index) -> Index {
-        do throws(Ordinal.Error) {
-            return try i.predecessor.exact()
-        } catch {
-            return .zero
-        }
+        i - 1
     }
 
     @inlinable
 
     public func index(_ i: Index, offsetBy distance: Int) -> Index {
-        do throws(Ordinal.Error) {
-            return try i + Index.Offset(distance)
-        } catch {
-            return self.endIndex
-        }
+        i + distance
     }
 
     @inlinable
 
     public func distance(from start: Index, to end: Index) -> Int {
-        do throws(Affine.Discrete.Vector.Error) {
-            return Int(bitPattern: try end - start as Affine.Discrete.Vector)
-        } catch {
-            return .zero
-        }
+        end - start
     }
 
     @inlinable
     public subscript(position: Index) -> Base.Element {
-
-        let physicalIndex: Index
-        do throws(Ordinal.Error) {
-            physicalIndex = try (position + _offset) % _count
-        } catch {
-            physicalIndex = .zero
-        }
-        return base[base.index(base.startIndex, offsetBy: Int(bitPattern: physicalIndex.position))]
+        let physicalIndex = (position + _offset) % _count
+        return base[base.index(base.startIndex, offsetBy: physicalIndex)]
     }
 }
 

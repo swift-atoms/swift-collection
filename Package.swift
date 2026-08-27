@@ -31,10 +31,6 @@ let package = Package(
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-atoms/swift-index.git",
-            branch: "main"
-        ),
-        .package(
             url: "https://github.com/swift-atoms/swift-iterator.git",
             branch: "main"
         ),
@@ -44,8 +40,7 @@ let package = Package(
             name: "Collection",
             dependencies: [
                 .product(name: "Comparison", package: "swift-comparison"),
-                .product(name: "Index", package: "swift-index"),
-                .product(name: "Iterable", package: "swift-iterator"),
+                .product(name: "Iterator", package: "swift-iterator"),
             ]
         ),
         .target(
@@ -63,10 +58,7 @@ let package = Package(
             name: "Collection Tests",
             dependencies: [
                 "Collection",
-                .product(name: "Index", package: "swift-index"),
-                .product(name: "Index Test Support", package: "swift-index"),
-                .product(name: "Iterable", package: "swift-iterator"),
-                .product(name: "Iterator Chunk", package: "swift-iterator"),
+                .product(name: "Iterator", package: "swift-iterator"),
             ]
         ),
     ],

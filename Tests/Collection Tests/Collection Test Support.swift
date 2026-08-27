@@ -1,7 +1,5 @@
 public import Collection
-public import Index
-public import Iterable
-public import Iterator_Chunk
+public import Iterator
 
 extension Collection {
 
@@ -24,22 +22,24 @@ extension Collection.Fixture {
 
 extension Collection.Fixture.Source {
 
-    @inlinable
-    public var startIndex: Index.Index<Element> { .zero }
+    public typealias Index = Int
 
     @inlinable
-    public var endIndex: Index.Index<Element> {
-        Index.Index<Element>(_unchecked: Ordinal(UInt(_elements.count)))
+    public var startIndex: Index { 0 }
+
+    @inlinable
+    public var endIndex: Index {
+        _elements.count
     }
 
     @inlinable
-    public subscript(_ position: Index.Index<Element>) -> Element {
-        _elements[Int(bitPattern: position)]
+    public subscript(_ position: Index) -> Element {
+        _elements[position]
     }
 
     @inlinable
-    public func index(after i: Index.Index<Element>) -> Index.Index<Element> {
-        i.successor.saturating()
+    public func index(after i: Index) -> Index {
+        i + 1
     }
 }
 
@@ -47,7 +47,7 @@ extension Collection.Fixture.Source {
 
     @inlinable
     @_lifetime(borrow self)
-    public borrowing func makeIterator() -> Iterator_Chunk.Iterator.Chunk<Element> {
-        Iterator_Chunk.Iterator.Chunk(_elements.span)
+    public borrowing func makeIterator() -> Iterator.Chunk<Element> {
+        .init(_elements.span)
     }
 }

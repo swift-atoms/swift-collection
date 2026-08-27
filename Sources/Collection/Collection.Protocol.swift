@@ -1,6 +1,5 @@
 public import Comparison
-public import Index
-public import Iterable
+public import Iterator
 
 extension Collection {
 
@@ -12,7 +11,7 @@ extension Collection {
     {
         associatedtype Element: ~Copyable
 
-        associatedtype Index: Comparison.`Protocol` & ~Escapable = Index.Index<Element>
+        associatedtype Index: Comparison.`Protocol` & ~Escapable
 
         var startIndex: Index { get }
 

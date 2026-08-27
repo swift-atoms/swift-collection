@@ -1,5 +1,3 @@
-import Index
-import Index_Test_Support
 import Testing
 
 @testable import Collection
@@ -26,7 +24,7 @@ extension Collection.`Rotated Test`.Unit {
     @Test
     func `rotation by 1 shifts elements left`() {
         let original = ["a", "b", "c", "d"]
-        let rotated = Collection.Rotated(base: original, startOffset: .one)
+        let rotated = Collection.Rotated(base: original, startOffset: 1)
 
         #expect(Array(rotated) == ["b", "c", "d", "a"])
     }
@@ -73,15 +71,15 @@ extension Collection.`Rotated Test`.Unit {
 
     @Test
     func `startIndex is zero`() {
-        let rotated = Collection.Rotated(base: [1, 2, 3], startOffset: .one)
+        let rotated = Collection.Rotated(base: [1, 2, 3], startOffset: 1)
 
         #expect(rotated.startIndex == .zero)
     }
 
     @Test
     func `endIndex equals count`() {
-        let rotated = Collection.Rotated(base: [1, 2, 3], startOffset: .one)
-        let expected: Index<Int> = 3
+        let rotated = Collection.Rotated(base: [1, 2, 3], startOffset: 1)
+        let expected = 3
 
         #expect(rotated.endIndex == expected)
     }
@@ -91,7 +89,7 @@ extension Collection.`Rotated Test`.Unit {
         let original = ["a", "b", "c", "d", "e"]
         let rotated = Collection.Rotated(base: original, startOffset: 2)
 
-        let idx0: Index<String> = 0
+        let idx0 = 0
 
         #expect(rotated[idx0] == "c")
         #expect(rotated[idx0 + 1] == "d")
@@ -102,10 +100,10 @@ extension Collection.`Rotated Test`.Unit {
 
     @Test
     func `index arithmetic`() {
-        let rotated = Collection.Rotated(base: [1, 2, 3, 4, 5], startOffset: .one)
+        let rotated = Collection.Rotated(base: [1, 2, 3, 4, 5], startOffset: 1)
 
-        let idx0: Index<Int> = .zero
-        let idx1 = idx0 + .one
+        let idx0 = 0
+        let idx1 = idx0 + 1
         let idx2 = idx0 + 2
         let idx3 = idx0 + 3
         let idx4 = idx0 + 4
@@ -119,7 +117,7 @@ extension Collection.`Rotated Test`.Unit {
     @Test
     func `reversed iteration`() {
         let original = [1, 2, 3, 4]
-        let rotated = Collection.Rotated(base: original, startOffset: .one)
+        let rotated = Collection.Rotated(base: original, startOffset: 1)
 
         #expect(Array(rotated.reversed()) == [1, 4, 3, 2])
     }
@@ -138,7 +136,7 @@ extension Collection.`Rotated Test`.`Edge Case` {
     @Test
     func `single element rotation`() {
         let single = [42]
-        let rotated = Collection.Rotated(base: single, startOffset: .one)
+        let rotated = Collection.Rotated(base: single, startOffset: 1)
 
         #expect(Array(rotated) == [42])
     }
@@ -149,8 +147,8 @@ extension Collection.`Rotated Test`.Integration {
     @Test
     func `nested rotation`() {
         let original = [1, 2, 3, 4]
-        let rotated1 = Collection.Rotated(base: original, startOffset: .one)
-        let rotated2 = Collection.Rotated(base: rotated1, startOffset: .one)
+        let rotated1 = Collection.Rotated(base: original, startOffset: 1)
+        let rotated2 = Collection.Rotated(base: rotated1, startOffset: 1)
 
         #expect(Array(rotated2) == [3, 4, 1, 2])
     }
@@ -159,7 +157,7 @@ extension Collection.`Rotated Test`.Integration {
     func `works with ArraySlice`() {
         let array = [0, 1, 2, 3, 4, 5]
         let slice = array[1..<5]
-        let rotated = Collection.Rotated(base: slice, startOffset: .one)
+        let rotated = Collection.Rotated(base: slice, startOffset: 1)
 
         #expect(Array(rotated) == [2, 3, 4, 1])
     }

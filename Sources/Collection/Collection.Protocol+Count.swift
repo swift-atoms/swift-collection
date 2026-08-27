@@ -1,18 +1,16 @@
-public import Index
-
 extension Collection.`Protocol` where Self: ~Copyable {
 
     @inlinable
-    public var count: Index.Index<Element>.Count {
+    public var count: Int {
         borrowing get {
             var i = startIndex
             let end = endIndex
-            var n = Cardinal.zero
+            var n = 0
             while i < end {
-                n += .one
+                n += 1
                 i = index(after: i)
             }
-            return Index.Index<Element>.Count(_unchecked: n)
+            return n
         }
     }
 }
