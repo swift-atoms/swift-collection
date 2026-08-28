@@ -1,6 +1,21 @@
+import Affine_Carrier
+import Affine_Tagged
+import Cardinal
+import Cardinal_Carrier
 import Index
-import Index_Test_Support
+import Ordinal
+import Ordinal_Cardinal
+import Ordinal_Protocol
+import Ordinal_Tagged
+import Tagged
 import Testing
+
+private func count<Element>(
+    _ rawValue: UInt,
+    for _: Element.Type
+) -> Index::Index<Element>.Count {
+    Index::Index<Element>.Count(_unchecked: Cardinal::Cardinal(rawValue))
+}
 
 @testable import Collection
 
@@ -34,7 +49,10 @@ extension Collection.`Rotated Test`.Unit {
     @Test
     func `rotation by 2 shifts elements left by 2`() {
         let original = ["a", "b", "c", "d"]
-        let rotated = Collection.Rotated(base: original, startOffset: 2)
+        let rotated = Collection.Rotated(
+            base: original,
+            startOffset: Index::Index<String>.Offset(2)
+        )
 
         #expect(Array(rotated) == ["c", "d", "a", "b"])
     }
@@ -42,7 +60,10 @@ extension Collection.`Rotated Test`.Unit {
     @Test
     func `rotation by count returns original order`() {
         let original = ["a", "b", "c", "d"]
-        let rotated = Collection.Rotated(base: original, startOffset: 4)
+        let rotated = Collection.Rotated(
+            base: original,
+            startOffset: Index::Index<String>.Offset(4)
+        )
 
         #expect(Array(rotated) == ["a", "b", "c", "d"])
     }
@@ -50,7 +71,10 @@ extension Collection.`Rotated Test`.Unit {
     @Test
     func `rotation normalizes offset modulo count`() {
         let original = ["a", "b", "c", "d"]
-        let rotated = Collection.Rotated(base: original, startOffset: 5)
+        let rotated = Collection.Rotated(
+            base: original,
+            startOffset: Index::Index<String>.Offset(5)
+        )
 
         #expect(Array(rotated) == ["b", "c", "d", "a"])
     }
@@ -58,7 +82,10 @@ extension Collection.`Rotated Test`.Unit {
     @Test
     func `large offset is normalized`() {
         let original = [1, 2, 3]
-        let rotated = Collection.Rotated(base: original, startOffset: 100)
+        let rotated = Collection.Rotated(
+            base: original,
+            startOffset: Index::Index<Int>.Offset(100)
+        )
 
         #expect(Array(rotated) == [2, 3, 1])
     }
@@ -66,7 +93,10 @@ extension Collection.`Rotated Test`.Unit {
     @Test
     func `count matches base count`() {
         let original = [1, 2, 3, 4, 5]
-        let rotated = Collection.Rotated(base: original, startOffset: 2)
+        let rotated = Collection.Rotated(
+            base: original,
+            startOffset: Index::Index<Int>.Offset(2)
+        )
 
         #expect(rotated.count == original.count)
     }
@@ -81,7 +111,7 @@ extension Collection.`Rotated Test`.Unit {
     @Test
     func `endIndex equals count`() {
         let rotated = Collection.Rotated(base: [1, 2, 3], startOffset: .one)
-        let expected: Index<Int> = 3
+        let expected = Index::Index<Int>(_unchecked: Ordinal::Ordinal(3))
 
         #expect(rotated.endIndex == expected)
     }
@@ -89,26 +119,30 @@ extension Collection.`Rotated Test`.Unit {
     @Test
     func `subscript access at various positions`() {
         let original = ["a", "b", "c", "d", "e"]
-        let rotated = Collection.Rotated(base: original, startOffset: 2)
+        let rotated = Collection.Rotated(
+            base: original,
+            startOffset: Index::Index<String>.Offset(2)
+        )
 
-        let idx0: Index<String> = 0
+        let idx0: Index::Index<String> = .zero
+        let one: Index::Index<String>.Count = .one
 
         #expect(rotated[idx0] == "c")
-        #expect(rotated[idx0 + 1] == "d")
-        #expect(rotated[idx0 + 2] == "e")
-        #expect(rotated[idx0 + 3] == "a")
-        #expect(rotated[idx0 + 4] == "b")
+        #expect(rotated[idx0 + one] == "d")
+        #expect(rotated[idx0 + count(2, for: String.self)] == "e")
+        #expect(rotated[idx0 + count(3, for: String.self)] == "a")
+        #expect(rotated[idx0 + count(4, for: String.self)] == "b")
     }
 
     @Test
     func `index arithmetic`() {
         let rotated = Collection.Rotated(base: [1, 2, 3, 4, 5], startOffset: .one)
 
-        let idx0: Index<Int> = .zero
-        let idx1 = idx0 + .one
-        let idx2 = idx0 + 2
-        let idx3 = idx0 + 3
-        let idx4 = idx0 + 4
+        let idx0: Index::Index<Int> = .zero
+        let idx1 = idx0 + count(1, for: Int.self)
+        let idx2 = idx0 + count(2, for: Int.self)
+        let idx3 = idx0 + count(3, for: Int.self)
+        let idx4 = idx0 + count(4, for: Int.self)
 
         #expect(rotated.index(after: idx0) == idx1)
         #expect(rotated.index(before: idx3) == idx2)
@@ -130,7 +164,10 @@ extension Collection.`Rotated Test`.`Edge Case` {
     @Test
     func `empty collection rotation`() {
         let empty: [Int] = []
-        let rotated = Collection.Rotated(base: empty, startOffset: 5)
+        let rotated = Collection.Rotated(
+            base: empty,
+            startOffset: Index::Index<Int>.Offset(5)
+        )
 
         #expect(rotated.isEmpty)
     }

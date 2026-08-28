@@ -1,20 +1,34 @@
+public import Affine_Arithmetic
+public import Affine_Carrier
+public import Affine_Discrete
+public import Affine_Standard_Library_Integration
+public import Affine_Tagged
+public import Cardinal
 public import Index
+public import Ordinal
+public import Ordinal_Cardinal
+internal import Ordinal_Error
+public import Ordinal_Predecessor
+public import Ordinal_Protocol
+public import Ordinal_Successor
+public import Ordinal_Tagged
+public import Tagged
 
 public struct __CollectionRotated<Base: RandomAccessCollection>: RandomAccessCollection {
     @usableFromInline
     let base: Base
 
     @usableFromInline
-    let _offset: Index.Index<Base.Element>.Offset
+    let _offset: Index::Index<Base.Element>.Offset
 
     @usableFromInline
-    let _count: Index.Index<Base.Element>.Count
+    let _count: Index::Index<Base.Element>.Count
 
     @inlinable
-    public init(base: Base, startOffset: Index.Index<Base.Element>.Offset) {
+    public init(base: Base, startOffset: Index::Index<Base.Element>.Offset) {
         self.base = base
         let count = base.count
-        self._count = Index.Index<Base.Element>.Count(_unchecked: Cardinal(UInt(count)))
+        self._count = Index::Index<Base.Element>.Count(_unchecked: Cardinal(UInt(count)))
 
         if base.isEmpty {
             self._offset = .zero
@@ -22,14 +36,14 @@ public struct __CollectionRotated<Base: RandomAccessCollection>: RandomAccessCol
 
             let offsetValue = Int(bitPattern: startOffset)
             let normalizedValue = ((offsetValue % count) + count) % count
-            self._offset = Index.Index<Base.Element>.Offset(normalizedValue)
+            self._offset = Index::Index<Base.Element>.Offset(normalizedValue)
         }
     }
 }
 
 extension Collection.Rotated {
 
-    public typealias Index = Index.Index<Base.Element>
+    public typealias Index = Index::Index<Base.Element>
 }
 
 extension Collection.Rotated {
@@ -83,7 +97,9 @@ extension Collection.Rotated {
         } catch {
             physicalIndex = .zero
         }
-        return base[base.index(base.startIndex, offsetBy: Int(bitPattern: physicalIndex.position))]
+        return base[
+            base.index(base.startIndex, offsetBy: Int(bitPattern: physicalIndex.position.rawValue))
+        ]
     }
 }
 

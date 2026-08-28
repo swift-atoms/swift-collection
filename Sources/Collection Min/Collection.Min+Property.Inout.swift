@@ -1,11 +1,12 @@
-public import Order
-internal import Property
+public import Comparison_Protocol
+public import Order_Comparator
+public import Property_Inout
 
-extension Property.Inout
+extension Property::Property.Inout
 where Base: Collection.`Protocol` & ~Copyable, Base.Index: Escapable, Tag == Collection.Min {
 
     @inlinable
-    public func index(by comparator: Order.Comparator<Base.Element>) -> Base.Index? {
+    public func index(by comparator: Order::Order.Comparator<Base.Element>) -> Base.Index? {
         var index = base.value.startIndex
         let endIndex = base.value.endIndex
         guard index < endIndex else { return nil }
@@ -21,11 +22,11 @@ where Base: Collection.`Protocol` & ~Copyable, Base.Index: Escapable, Tag == Col
     }
 }
 
-extension Property.Inout
+extension Property::Property.Inout
 where
     Base: Collection.`Protocol` & ~Copyable,
     Base.Index: Escapable,
-    Base.Element: Comparison.`Protocol` & SendableMetatype,
+    Base.Element: Comparison::Comparison.`Protocol` & SendableMetatype,
     Tag == Collection.Min
 {
 
@@ -35,7 +36,7 @@ where
     }
 }
 
-extension Property.Inout
+extension Property::Property.Inout
 where
     Base: Collection.`Protocol` & ~Copyable,
     Base.Index: Escapable,
@@ -44,17 +45,19 @@ where
 {
 
     @inlinable
-    public func callAsFunction(by comparator: Order.Comparator<Base.Element>) -> Base.Element? {
+    public func callAsFunction(
+        by comparator: Order::Order.Comparator<Base.Element>
+    ) -> Base.Element? {
         guard let idx = index(by: comparator) else { return nil }
         return base.value[idx]
     }
 }
 
-extension Property.Inout
+extension Property::Property.Inout
 where
     Base: Collection.`Protocol` & ~Copyable,
     Base.Index: Escapable,
-    Base.Element: Copyable & Comparison.`Protocol` & SendableMetatype,
+    Base.Element: Copyable & Comparison::Comparison.`Protocol` & SendableMetatype,
     Tag == Collection.Min
 {
 
