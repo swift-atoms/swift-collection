@@ -66,23 +66,23 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-molecules/swift-comparison.git",
+            url: "https://github.com/swift-atoms/swift-comparison.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-molecules/swift-index.git",
+            url: "https://github.com/swift-atoms/swift-index.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-molecules/swift-iterator.git",
+            url: "https://github.com/swift-atoms/swift-iterator.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-molecules/swift-order.git",
+            url: "https://github.com/swift-atoms/swift-order.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-molecules/swift-property.git",
+            url: "https://github.com/swift-atoms/swift-property.git",
             branch: "main"
         ),
     ],
@@ -95,7 +95,7 @@ let package = Package(
         .target(
             name: "Collection Protocol",
             dependencies: [
-                "Collection Namespace",
+                .target(name: "Collection Namespace"),
                 .product(name: "Comparison", package: "swift-comparison"),
                 .product(name: "Index", package: "swift-index"),
                 .product(name: "Iterable", package: "swift-iterator"),
@@ -105,24 +105,24 @@ let package = Package(
         .target(
             name: "Collection Bidirectional",
             dependencies: [
-                "Collection Namespace",
-                "Collection Protocol",
+                .target(name: "Collection Namespace"),
+                .target(name: "Collection Protocol"),
             ]
         ),
 
         .target(
             name: "Collection Access Random",
             dependencies: [
-                "Collection Bidirectional",
-                "Collection Namespace",
-                "Collection Protocol",
+                .target(name: "Collection Bidirectional"),
+                .target(name: "Collection Namespace"),
+                .target(name: "Collection Protocol"),
             ]
         ),
 
         .target(
             name: "Collection Max",
             dependencies: [
-                "Collection Protocol",
+                .target(name: "Collection Protocol"),
                 .product(name: "Order", package: "swift-order"),
                 .product(name: "Property", package: "swift-property"),
             ]
@@ -131,7 +131,7 @@ let package = Package(
         .target(
             name: "Collection Min",
             dependencies: [
-                "Collection Protocol",
+                .target(name: "Collection Protocol"),
                 .product(name: "Order", package: "swift-order"),
                 .product(name: "Property", package: "swift-property"),
             ]
@@ -140,14 +140,14 @@ let package = Package(
         .target(
             name: "Collection Remove",
             dependencies: [
-                "Collection Protocol"
+                .target(name: "Collection Protocol")
             ]
         ),
 
         .target(
             name: "Collection Rotated",
             dependencies: [
-                "Collection Namespace",
+                .target(name: "Collection Namespace"),
                 .product(name: "Index", package: "swift-index"),
             ]
         ),
@@ -155,7 +155,7 @@ let package = Package(
         .target(
             name: "Collection Slice",
             dependencies: [
-                "Collection Protocol",
+                .target(name: "Collection Protocol"),
                 .product(name: "Property", package: "swift-property"),
             ]
         ),
@@ -163,32 +163,32 @@ let package = Package(
         .target(
             name: "Collection Standard Library Integration",
             dependencies: [
-                "Collection Access Random",
-                "Collection Bidirectional",
-                "Collection Protocol",
+                .target(name: "Collection Access Random"),
+                .target(name: "Collection Bidirectional"),
+                .target(name: "Collection Protocol"),
             ]
         ),
 
         .target(
             name: "Collection",
             dependencies: [
-                "Collection Access Random",
-                "Collection Bidirectional",
-                "Collection Max",
-                "Collection Min",
-                "Collection Namespace",
-                "Collection Standard Library Integration",
-                "Collection Protocol",
-                "Collection Remove",
-                "Collection Rotated",
-                "Collection Slice",
+                .target(name: "Collection Access Random"),
+                .target(name: "Collection Bidirectional"),
+                .target(name: "Collection Max"),
+                .target(name: "Collection Min"),
+                .target(name: "Collection Namespace"),
+                .target(name: "Collection Standard Library Integration"),
+                .target(name: "Collection Protocol"),
+                .target(name: "Collection Remove"),
+                .target(name: "Collection Rotated"),
+                .target(name: "Collection Slice"),
             ]
         ),
 
         .target(
             name: "Collection Test Support",
             dependencies: [
-                "Collection",
+                .target(name: "Collection"),
                 .product(name: "Index Test Support", package: "swift-index"),
                 .product(name: "Iterable", package: "swift-iterator"),
                 .product(name: "Iterator Chunk", package: "swift-iterator"),
@@ -198,8 +198,8 @@ let package = Package(
         .testTarget(
             name: "Collection Tests",
             dependencies: [
-                "Collection",
-                "Collection Test Support",
+                .target(name: "Collection"),
+                .target(name: "Collection Test Support"),
                 .product(name: "Iterable", package: "swift-iterator"),
             ]
         ),
