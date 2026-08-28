@@ -1,18 +1,17 @@
-public import Comparison
+public import Comparison_Protocol
 public import Index
-public import Iterable
+public import Sequence_Borrowing
 
 extension Collection {
 
-    public protocol `Protocol`: Iterable, ~Copyable
+    public protocol `Protocol`: Sequence.Borrowing.`Protocol`, ~Copyable
     where
         Element: ~Copyable,
         Iterator.Element == Element,
         Iterator.Failure == Never
     {
-        associatedtype Element: ~Copyable
-
-        associatedtype Index: Comparison.`Protocol` & ~Escapable = Index.Index<Element>
+        associatedtype Index: Comparison::Comparison.`Protocol` & ~Escapable =
+            Index::Index<Element>
 
         var startIndex: Index { get }
 
@@ -20,7 +19,6 @@ extension Collection {
 
         subscript(_ position: Index) -> Element { get }
 
-        @_lifetime(copy i)
         func index(after i: Index) -> Index
     }
 }

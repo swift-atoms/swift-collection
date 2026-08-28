@@ -78,6 +78,26 @@ let package = Package(
             branch: "main"
         ),
         .package(
+            url: "https://github.com/swift-atoms/swift-sequence.git",
+            branch: "main"
+        ),
+        .package(
+            url: "https://github.com/swift-atoms/swift-affine.git",
+            branch: "main"
+        ),
+        .package(
+            url: "https://github.com/swift-atoms/swift-cardinal.git",
+            branch: "main"
+        ),
+        .package(
+            url: "https://github.com/swift-atoms/swift-ordinal.git",
+            branch: "main"
+        ),
+        .package(
+            url: "https://github.com/swift-atoms/swift-tagged.git",
+            branch: "main"
+        ),
+        .package(
             url: "https://github.com/swift-atoms/swift-order.git",
             branch: "main"
         ),
@@ -96,9 +116,12 @@ let package = Package(
             name: "Collection Protocol",
             dependencies: [
                 .target(name: "Collection Namespace"),
-                .product(name: "Comparison", package: "swift-comparison"),
+                .product(name: "Cardinal", package: "swift-cardinal"),
+                .product(name: "Comparison Protocol", package: "swift-comparison"),
                 .product(name: "Index", package: "swift-index"),
-                .product(name: "Iterable", package: "swift-iterator"),
+                .product(name: "Ordinal Protocol", package: "swift-ordinal"),
+                .product(name: "Sequence Borrowing", package: "swift-sequence"),
+                .product(name: "Tagged", package: "swift-tagged"),
             ]
         ),
 
@@ -123,8 +146,10 @@ let package = Package(
             name: "Collection Max",
             dependencies: [
                 .target(name: "Collection Protocol"),
-                .product(name: "Order", package: "swift-order"),
+                .product(name: "Comparison Protocol", package: "swift-comparison"),
+                .product(name: "Order Comparator", package: "swift-order"),
                 .product(name: "Property", package: "swift-property"),
+                .product(name: "Property Inout", package: "swift-property"),
             ]
         ),
 
@@ -132,15 +157,18 @@ let package = Package(
             name: "Collection Min",
             dependencies: [
                 .target(name: "Collection Protocol"),
-                .product(name: "Order", package: "swift-order"),
+                .product(name: "Comparison Protocol", package: "swift-comparison"),
+                .product(name: "Order Comparator", package: "swift-order"),
                 .product(name: "Property", package: "swift-property"),
+                .product(name: "Property Inout", package: "swift-property"),
             ]
         ),
 
         .target(
             name: "Collection Remove",
             dependencies: [
-                .target(name: "Collection Protocol")
+                .target(name: "Collection Protocol"),
+                .product(name: "Sequence Borrowing", package: "swift-sequence"),
             ]
         ),
 
@@ -148,7 +176,24 @@ let package = Package(
             name: "Collection Rotated",
             dependencies: [
                 .target(name: "Collection Namespace"),
+                .product(name: "Affine Arithmetic", package: "swift-affine"),
+                .product(name: "Affine Carrier", package: "swift-affine"),
+                .product(name: "Affine Discrete", package: "swift-affine"),
+                .product(name: "Affine Tagged", package: "swift-affine"),
+                .product(
+                    name: "Affine Standard Library Integration",
+                    package: "swift-affine"
+                ),
+                .product(name: "Cardinal", package: "swift-cardinal"),
                 .product(name: "Index", package: "swift-index"),
+                .product(name: "Ordinal", package: "swift-ordinal"),
+                .product(name: "Ordinal Cardinal", package: "swift-ordinal"),
+                .product(name: "Ordinal Error", package: "swift-ordinal"),
+                .product(name: "Ordinal Predecessor", package: "swift-ordinal"),
+                .product(name: "Ordinal Protocol", package: "swift-ordinal"),
+                .product(name: "Ordinal Successor", package: "swift-ordinal"),
+                .product(name: "Ordinal Tagged", package: "swift-ordinal"),
+                .product(name: "Tagged", package: "swift-tagged"),
             ]
         ),
 
@@ -157,6 +202,7 @@ let package = Package(
             dependencies: [
                 .target(name: "Collection Protocol"),
                 .product(name: "Property", package: "swift-property"),
+                .product(name: "Property Inout", package: "swift-property"),
             ]
         ),
 
@@ -189,9 +235,14 @@ let package = Package(
             name: "Collection Test Support",
             dependencies: [
                 .target(name: "Collection"),
-                .product(name: "Index Test Support", package: "swift-index"),
-                .product(name: "Iterable", package: "swift-iterator"),
+                .product(name: "Index", package: "swift-index"),
+                .product(name: "Iterator", package: "swift-iterator"),
                 .product(name: "Iterator Chunk", package: "swift-iterator"),
+                .product(name: "Ordinal", package: "swift-ordinal"),
+                .product(name: "Ordinal Successor", package: "swift-ordinal"),
+                .product(name: "Ordinal Tagged", package: "swift-ordinal"),
+                .product(name: "Sequence Borrowing", package: "swift-sequence"),
+                .product(name: "Tagged", package: "swift-tagged"),
             ],
             path: "Tests/Support"
         ),
@@ -200,7 +251,17 @@ let package = Package(
             dependencies: [
                 .target(name: "Collection"),
                 .target(name: "Collection Test Support"),
-                .product(name: "Iterable", package: "swift-iterator"),
+                .product(name: "Affine Carrier", package: "swift-affine"),
+                .product(name: "Affine Tagged", package: "swift-affine"),
+                .product(name: "Cardinal", package: "swift-cardinal"),
+                .product(name: "Cardinal Carrier", package: "swift-cardinal"),
+                .product(name: "Index", package: "swift-index"),
+                .product(name: "Ordinal", package: "swift-ordinal"),
+                .product(name: "Ordinal Cardinal", package: "swift-ordinal"),
+                .product(name: "Ordinal Protocol", package: "swift-ordinal"),
+                .product(name: "Ordinal Tagged", package: "swift-ordinal"),
+                .product(name: "Sequence ForEach", package: "swift-sequence"),
+                .product(name: "Tagged", package: "swift-tagged"),
             ]
         ),
     ],

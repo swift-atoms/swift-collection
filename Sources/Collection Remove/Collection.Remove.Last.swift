@@ -1,3 +1,5 @@
+public import Sequence_Borrowing
+
 extension Collection.Remove.Last where Self: ~Copyable {
 
     public var remove: Collection.Remove.View<Self> {

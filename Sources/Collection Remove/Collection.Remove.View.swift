@@ -1,3 +1,5 @@
+public import Sequence_Borrowing
+
 extension Collection.Remove {
 
     @safe

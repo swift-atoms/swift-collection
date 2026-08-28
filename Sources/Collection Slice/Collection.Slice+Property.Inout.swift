@@ -1,6 +1,6 @@
-import Property
+internal import Property_Inout
 
-extension Property.Inout
+extension Property::Property.Inout
 where Base: Collection.Slice.`Protocol` & ~Copyable, Tag == Collection.Slice {
 
 }
