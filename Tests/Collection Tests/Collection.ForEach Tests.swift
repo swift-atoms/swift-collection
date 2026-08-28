@@ -1,4 +1,6 @@
-import Iterator
+import Collection_Test_Support
+import Index
+import Iterable
 import Testing
 
 @testable import Collection

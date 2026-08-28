@@ -2,11 +2,11 @@
 
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
 
-Indexed-collection protocol family for Swift — `Collection.Protocol` with `~Copyable` element support, a single `Collection.Protocol` → `Bidirectional` → `Access.Random` traversal hierarchy, and small protocol-extension surfaces such as `.forEach`, `.count`, and `.first`.
+Indexed-collection protocol family for Swift — `Collection.Protocol` with `~Copyable` element support, a single `Collection.Protocol` → `Bidirectional` → `Access.Random` traversal hierarchy, and automatic fluent terminal operations (`.forEach`, `.count`, `.min`, `.max`, `.remove`, `.slice`) provided by protocol extension.
 
 Stdlib's `Swift.Collection` requires `Element: Copyable` (per SE-0427): its `subscript(position) -> Element { get }` accessor returns an owned value, which closes the protocol off to `~Copyable` conformers and `~Copyable` elements. `Collection.Protocol` in this package declares `associatedtype Element: ~Copyable` and a `subscript(position) -> Element { get }` that conformers satisfy with a `_read` (borrowing) accessor — the element is yielded in place, never moved out — so move-only containers and containers of move-only elements reach the same index-navigation and terminal-operation surface as `Copyable` ones.
 
-This package is part of **Story 2 of the data-structures cohort** (`data-structures-launch-2026`). Its native core depends only on comparison for index ordering and iterator for the `Iterable` protocol family. A conformer chooses its own comparable index type; collection does not prescribe a derived typed-index representation.
+This package is part of **Story 2 of the data-structures cohort** (`data-structures-launch-2026`): seven packages introducing typed indexing and sequences — order, index, sequence, **collection**, input, cyclic, vector. Story 1 (cardinal, ordinal, affine) shipped 2026-05-12; Story 2 Wave 1 (order + index) shipped 2026-05-13; Wave 2 (sequence) shipped 2026-05-16; Wave 3 (cyclic) shipped 2026-05-18. Collection depends on comparison (for index ordering), index (for `Index<Element>` and `Index.Offset`), order (for `Order.Comparator`), property (for the fluent `.<op>` accessors), and iterator (for the `Iterable` protocol family).
 
 ---
 
@@ -15,34 +15,34 @@ This package is part of **Story 2 of the data-structures cohort** (`data-structu
 ```swift
 import Collection
 
-typealias NumbersIterator = Iterator.Chunk<Int>
-
 // Conform a container to Collection.Protocol — startIndex, endIndex,
 // subscript, index(after:) are the four primitives.
 struct Numbers: Collection.`Protocol` {
     var storage: [Int]
 
-    var startIndex: Int { 0 }
-    var endIndex: Int { storage.count }
-    subscript(position: Int) -> Int { storage[position] }
-    func index(after i: Int) -> Int { i + 1 }
-
-    func makeIterator() -> NumbersIterator {
-        NumbersIterator(storage.span)
-    }
+    var startIndex: Index { .zero }
+    var endIndex: Index { Index(_unchecked: position: storage.count) }
+    subscript(position: Index) -> Int { storage[Int(bitPattern: position.position)] }
+    func index(after i: Index) -> Index { (i + Index.Offset(1))! }
 }
 
-let numbers = Numbers(storage: [3, 1, 4, 1, 5, 9, 2, 6])
+var numbers = Numbers(storage: [3, 1, 4, 1, 5, 9, 2, 6])
 
-let total = numbers.count  // 8
-let first = numbers.first  // Optional(3)
+// Terminal ops via the fluent `.<op>` Property.Inout accessors —
+// all provided automatically by protocol extension.
+let total      = numbers.count.all                           // Index<Int>.Count(8)
+let evenCount  = numbers.count.where { $0 % 2 == 0 }         // Index<Int>.Count(3)
+let smallest   = numbers.min()                               // Optional(1)
+let largestIdx = numbers.max.index(by: .ascending)           // Optional(position of 9)
 
+// forEach takes the closure directly; .forEach.borrowing { } is the
+// explicit-ownership variant.
 numbers.forEach { element in
     print(element)
 }
 ```
 
-For `~Copyable` element types — file descriptors, unique resource handles, `Span<T>` — conform to `Collection.Protocol` with `associatedtype Element: ~Copyable`. Navigation and borrowing iteration remain available; value-returning conveniences such as `.first` are constrained to `Element: Copyable`.
+For `~Copyable` element types — file descriptors, unique resource handles, `Span<T>` — conform to `Collection.Protocol` with `associatedtype Element: ~Copyable`. The terminal operations that return indices (`.count.where`, `.min.index(by:)`, `.max.index(by:)`) work without copies; the value-returning variants (`.min()`, `.max()`) require `Element: Copyable` and silently disappear from the surface for `~Copyable` elements.
 
 ---
 
@@ -52,7 +52,7 @@ Add to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-atoms/swift-collection.git", branch: "main"),
+    .package(url: "https://github.com/swift-molecules/swift-collection.git", branch: "main"),
 ]
 ```
 
@@ -65,21 +65,32 @@ dependencies: [
 )
 ```
 
-The package is pre-1.0 — until 0.1.0 is tagged, depend on `branch: "main"` rather than `from: "0.1.0"`. Requires Swift 6.4 and macOS 27 / iOS 27 / tvOS 27 / watchOS 27 / visionOS 27 (or the matching Linux / Windows toolchain).
+The package is pre-1.0 — until 0.1.0 is tagged, depend on `branch: "main"` rather than `from: "0.1.0"`. Requires Swift 6.3.1 and macOS 26 / iOS 26 / tvOS 26 / watchOS 26 / visionOS 26 (or the matching Linux / Windows toolchain).
 
 ---
 
 ## Architecture
 
-Three library products preserve the canonical atom shape:
+Twelve library products: an umbrella, ten subject-domain sub-products, and a Test Support spine.
 
 | Product | When to import | What's in it |
 |---------|---------------|--------------|
-| `Collection` | Default for application code | Foundation-free native protocol family and `Collection.Rotated`. |
-| `Collection Standard Library Integration` | Standard-library seams | Dedicated home for bridges involving standard-library collection protocols. |
-| `Collection Apple Foundation Integration` | Apple Foundation seams | The only target that imports Foundation. |
+| `Collection` | Default for application code | Umbrella that re-exports every sub-product below. The protocol family (`Collection.Protocol`, `Collection.Bidirectional`, `Collection.Access.Random`, `Collection.Clearable`, `Collection.Remove.Last`, `Collection.Slice.Protocol`), the automatic fluent surface (`.forEach`, `.count`, `.min`, `.max`, `.remove`, `.slice`), the `Collection.Rotated` view, and stdlib bridges to `Swift.Collection` / `Swift.RandomAccessCollection` for `Copyable` conformers. The package re-exports its external dependencies (`Comparison`, `Index`, `Order`, `Property`, and `Iterable`) so a single `import Collection` brings the full surface into scope. |
+| `Collection Protocol` | Narrow import | The root `Collection.Protocol` and its associated types. |
+| `Collection Bidirectional` | Narrow import | `Collection.Bidirectional`, adding `index(before:)`. |
+| `Collection Access Random` | Narrow import | `Collection.Access.Random`, adding O(1) index arithmetic. |
+| `Collection Min` | Narrow import | The `.min` fluent surface. |
+| `Collection Max` | Narrow import | The `.max` fluent surface. |
+| `Collection Remove` | Narrow import | `Collection.Remove.Last` and the `.remove` fluent surface. |
+| `Collection Slice` | Narrow import | `Collection.Slice.Protocol` and the `.slice` fluent surface. |
+| `Collection Rotated` | Narrow import | The `Collection.Rotated` view. |
+| `Collection Namespace` | Narrow import | The shared `Collection` namespace enum. |
+| `Collection Standard Library Integration` | Narrow import | The stdlib bridges to `Swift.Collection` / `Swift.RandomAccessCollection` for `Copyable` conformers. |
+| `Collection Test Support` | Test targets | Fixtures and re-exports for downstream test consumers. Re-exports the umbrella plus `Index Test Support`. |
 
-`Collection` is the supported default for consumer code. The core and standard-library integration targets are Foundation-free; Foundation is confined to `Collection Apple Foundation Integration`.
+`Collection` is the supported default for consumer code — the ten subject-domain products above exist to keep a dependency narrow and are implementation details of the umbrella, not required reading to use the package. `Collection Test Support` is the only other product intended for direct import, and only from test targets.
+
+Foundation-free. No concurrency surface. No platform conditionals.
 
 ### A single index hierarchy
 
@@ -97,15 +108,17 @@ Collection.Access.Random ← O(1) guarantee
 
 `Collection.Protocol` refines `Iterable` (the multi-pass / borrow attachable), so every conformer vends a span-based `makeIterator()` and inherits the `Iterable` terminals (`.forEach`, `.reduce`, `.contains`, `.first`) for free. It does **not** refine `Sequenceable` (the single-pass / consuming attachable) — that is an orthogonal capability. Bridging to `Swift.Collection` or `for-in` additionally needs a `Swift.Sequence`-compatible `makeIterator()`, since the `Iterable` witness is a borrowing *chunk* iterator rather than a scalar `Swift.IteratorProtocol`.
 
-### Core protocol extensions
+### Terminal operations as protocol extensions
 
-Conformers provide `startIndex`, `endIndex`, `subscript`, `index(after:)`, and the `Iterable` iterator witness. The package derives `.count` from navigation, `.first` for copyable elements, and the iterator terminals supplied by `swift-iterator`.
+The fluent surface — `.forEach`, `.count`, `.min`, `.max`, `.remove`, `.slice` — is provided automatically by protocol extension on `Collection.Protocol`. Conformers do not implement these accessors; satisfying the four primitive requirements (`startIndex`, `endIndex`, `subscript`, `index(after:)`) is sufficient. The accessors compose with the phantom-tagged `Property<Tag, Base>.Inout` machinery from `swift-property`, so terminal ops like `.min(by:)` and `.min.index(by:)` discover themselves at the call site without separate conformance work.
+
+`.remove.last()` requires `Collection.Remove.Last` conformance; `.remove.all()` and `.forEach.consuming { }` require `Collection.Clearable` conformance. Both are opt-in capabilities — the static `removeLast(_:)` / `removeAll(_:)` primitives let containers expose mutation only when the underlying storage supports it.
 
 ---
 
 ## `~Copyable` element support
 
-`Collection.Protocol` declares `associatedtype Element: ~Copyable`, and its `subscript(position:) -> Element { get }` may be satisfied by a `_read` borrowing accessor. The `Bidirectional` and `Access.Random` refinements inherit that support directly. Operations returning owned elements, such as `.first`, constrain `Element` to `Copyable`.
+`Collection.Protocol` declares `associatedtype Element: ~Copyable`, and its `subscript(position:) -> Element { get }` is satisfied by a `_read` (borrowing) accessor, so index navigation and element access work for containers of move-only types without forfeiting the index hierarchy — the `Bidirectional` and `Access.Random` refinements inherit that support directly. Element-returning terminal operations (`.min()`, `.max()` value forms) silently constrain to `Element: Copyable`; index-returning operations (`.min.index(by:)`, `.max.index(by:)`, `.count.where`) work over `~Copyable` elements. This lets a container of file descriptors reach the same index-finding surface as a container of integers, without compromising either case.
 
 For self-slicing containers, `Collection.Slice.Protocol` adds `subscript(bounds: Range<Index>) -> Self`. The package provides partial-range subscripts (`self[i...]`, `self[..<i]`) as defaults via a two-tier pattern: a `~Copyable`-safe borrowing tier via `_read`, and a `Copyable` tier that returns owned values via `get`.
 
@@ -113,7 +126,7 @@ For self-slicing containers, `Collection.Slice.Protocol` adds `subscript(bounds:
 
 ## `Collection.Rotated`
 
-`Collection.Rotated<Base>` is a zero-copy rotated view over a `Swift.RandomAccessCollection`. Its `Int` rotation offset is normalized modulo the base count (negative offsets rotate in the opposite direction), and the view itself conforms to `Swift.RandomAccessCollection`.
+`Collection.Rotated<Base>` is a zero-copy rotated view over a `Swift.RandomAccessCollection`. The rotation offset is normalized modulo the base count (negative offsets rotate in the opposite direction); indices are computed on access via affine arithmetic plus a modular wrap. The view itself conforms to `Swift.RandomAccessCollection`, so consumers can use it anywhere a stdlib random-access collection is accepted.
 
 ```swift
 let original = ["a", "b", "c", "d"]
@@ -129,7 +142,7 @@ The type is hoisted to module level as `__CollectionRotated` and re-exported as 
 
 | Platform | CI | Status |
 |----------|-----|--------|
-| macOS 27 | Yes | Full support |
+| macOS 26 | Yes | Full support |
 | iOS / tvOS / watchOS / visionOS | — | Supported |
 | Linux | Yes | Full support |
 | Windows | Yes | Full support |
@@ -144,7 +157,7 @@ Pre-1.0. The public API of `Collection.Protocol` and its members may change whil
 | Surface | 0.1.x expectation |
 |---|---|
 | Public type names (`Collection.Protocol`, `Collection.Bidirectional`, `Collection.Access.Random`, `Collection.Slice.Protocol`, `Collection.Rotated`) | Stable within 0.1.x |
-| Documented initializers and accessors | Stable within 0.1.x |
+| Documented initializers, accessors, and the fluent `.<op>` surface | Stable within 0.1.x |
 | Internal storage shapes and the hoisted `__CollectionRotated` backing | Not part of the source-stability commitment |
 
 The single index hierarchy (`Collection.Protocol` → `Collection.Bidirectional` → `Collection.Access.Random`, described in [A single index hierarchy](#a-single-index-hierarchy)) is the 0.1.0 shape. An earlier design split bare index navigation into a separate parallel protocol; that split proved redundant — `Collection.Protocol`'s `_read` subscript already carries `~Copyable` support — and was removed.
@@ -155,14 +168,15 @@ The single index hierarchy (`Collection.Protocol` → `Collection.Bidirectional`
 
 Direct dependencies (all already-public):
 
-- [swift-comparison](https://github.com/swift-atoms/swift-comparison) — `Comparison.Protocol`, the `Comparable`-shape conformance the `Collection.Protocol` `Index` associated type requires.
-- [swift-iterator](https://github.com/swift-atoms/swift-iterator) — the `Iterable` protocol, borrowing chunk iterator, and inherited iteration terminals.
-
+- [swift-comparison](https://github.com/swift-molecules/swift-comparison) — `Comparison.Protocol`, the `Comparable`-shape conformance the `Collection.Protocol` `Index` associated type requires.
+- [swift-index](https://github.com/swift-molecules/swift-index) — `Index<Element>`, `Index.Offset`, and `Index.Count`, the typed-indexing surface the protocol family is built on.
+- [swift-order](https://github.com/swift-molecules/swift-order) — `Order.Comparator`, the comparator type `.min(by:)`, `.max(by:)`, and the index-returning variants consume.
+- [swift-property](https://github.com/swift-molecules/swift-property) — `Property<Tag, Base>.Inout`, the phantom-tagged fluent-accessor machinery that powers `.forEach { }`, `.count.where { }`, `.min(by:)`, `.max.index(by:)`, and the rest of the terminal surface.
 Cohort siblings (Story 2 — Typed indexing and sequences):
 
 - order, index, sequence, **collection**, input, cyclic, vector — see [`data-structures-launch-2026`](https://github.com/swift-institute) for the cohort narrative.
 
-Story 1 sibling primitives ([`cardinal`](https://github.com/swift-atoms/swift-cardinal), [`ordinal`](https://github.com/swift-atoms/swift-ordinal), [`affine`](https://github.com/swift-atoms/swift-affine)) shipped 2026-05-12 and supply the counting / position / displacement primitives the index hierarchy is built on.
+Story 1 sibling primitives ([`cardinal`](https://github.com/swift-molecules/swift-cardinal), [`ordinal`](https://github.com/swift-molecules/swift-ordinal), [`affine`](https://github.com/swift-molecules/swift-affine)) shipped 2026-05-12 and supply the counting / position / displacement primitives the index hierarchy is built on.
 
 ---
 
