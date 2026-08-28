@@ -13,7 +13,7 @@ This package is part of **Story 2 of the data-structures cohort** (`data-structu
 ## Quick Start
 
 ```swift
-import Collection_Primitives
+import Collection
 
 // Conform a container to Collection.Protocol — startIndex, endIndex,
 // subscript, index(after:) are the four primitives.
@@ -52,7 +52,7 @@ Add to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-primitives/swift-collection-primitives.git", branch: "main"),
+    .package(url: "https://github.com/swift-atoms/swift-collection.git", branch: "main"),
 ]
 ```
 
@@ -60,7 +60,7 @@ dependencies: [
 .target(
     name: "App",
     dependencies: [
-        .product(name: "Collection Primitives", package: "swift-collection-primitives"),
+        .product(name: "Collection", package: "swift-collection"),
     ]
 )
 ```
@@ -75,7 +75,7 @@ Twelve library products: an umbrella, ten subject-domain sub-products, and a Tes
 
 | Product | When to import | What's in it |
 |---------|---------------|--------------|
-| `Collection Primitives` | Default for application code | Umbrella that re-exports every sub-product below. The protocol family (`Collection.Protocol`, `Collection.Bidirectional`, `Collection.Access.Random`, `Collection.Clearable`, `Collection.Remove.Last`, `Collection.Slice.Protocol`), the automatic fluent surface (`.forEach`, `.count`, `.min`, `.max`, `.remove`, `.slice`), the `Collection.Rotated` view, and stdlib bridges to `Swift.Collection` / `Swift.RandomAccessCollection` for `Copyable` conformers. The package re-exports its external dependencies (`Comparison_Primitives`, `Index_Primitives`, `Order_Primitives`, `Property_Primitives`, and `Iterable`) so a single `import Collection_Primitives` brings the full surface into scope. |
+| `Collection Primitives` | Default for application code | Umbrella that re-exports every sub-product below. The protocol family (`Collection.Protocol`, `Collection.Bidirectional`, `Collection.Access.Random`, `Collection.Clearable`, `Collection.Remove.Last`, `Collection.Slice.Protocol`), the automatic fluent surface (`.forEach`, `.count`, `.min`, `.max`, `.remove`, `.slice`), the `Collection.Rotated` view, and stdlib bridges to `Swift.Collection` / `Swift.RandomAccessCollection` for `Copyable` conformers. The package re-exports its external dependencies (`Comparison`, `Index`, `Order`, `Property`, and `Iterable`) so a single `import Collection` brings the full surface into scope. |
 | `Collection Protocol Primitives` | Narrow import | The root `Collection.Protocol` and its associated types. |
 | `Collection Bidirectional Primitives` | Narrow import | `Collection.Bidirectional`, adding `index(before:)`. |
 | `Collection Access Random Primitives` | Narrow import | `Collection.Access.Random`, adding O(1) index arithmetic. |
@@ -85,10 +85,10 @@ Twelve library products: an umbrella, ten subject-domain sub-products, and a Tes
 | `Collection Slice Primitives` | Narrow import | `Collection.Slice.Protocol` and the `.slice` fluent surface. |
 | `Collection Rotated Primitives` | Narrow import | The `Collection.Rotated` view. |
 | `Collection Namespace Primitives` | Narrow import | The shared `Collection` namespace enum. |
-| `Collection Primitives Standard Library Integration` | Narrow import | The stdlib bridges to `Swift.Collection` / `Swift.RandomAccessCollection` for `Copyable` conformers. |
-| `Collection Primitives Test Support` | Test targets | Fixtures and re-exports for downstream test consumers. Re-exports the umbrella plus `Index Primitives Test Support`. |
+| `Collection Standard Library Integration` | Narrow import | The stdlib bridges to `Swift.Collection` / `Swift.RandomAccessCollection` for `Copyable` conformers. |
+| `Collection Test Support` | Test targets | Fixtures and re-exports for downstream test consumers. Re-exports the umbrella plus `Index Test Support`. |
 
-`Collection Primitives` is the supported default for consumer code — the ten subject-domain products above exist to keep a dependency narrow and are implementation details of the umbrella, not required reading to use the package. `Collection Primitives Test Support` is the only other product intended for direct import, and only from test targets.
+`Collection Primitives` is the supported default for consumer code — the ten subject-domain products above exist to keep a dependency narrow and are implementation details of the umbrella, not required reading to use the package. `Collection Test Support` is the only other product intended for direct import, and only from test targets.
 
 Foundation-free. No concurrency surface. No platform conditionals.
 
@@ -110,7 +110,7 @@ Collection.Access.Random ← O(1) guarantee
 
 ### Terminal operations as protocol extensions
 
-The fluent surface — `.forEach`, `.count`, `.min`, `.max`, `.remove`, `.slice` — is provided automatically by protocol extension on `Collection.Protocol`. Conformers do not implement these accessors; satisfying the four primitive requirements (`startIndex`, `endIndex`, `subscript`, `index(after:)`) is sufficient. The accessors compose with the phantom-tagged `Property<Tag, Base>.Inout` machinery from `swift-property-primitives`, so terminal ops like `.min(by:)` and `.min.index(by:)` discover themselves at the call site without separate conformance work.
+The fluent surface — `.forEach`, `.count`, `.min`, `.max`, `.remove`, `.slice` — is provided automatically by protocol extension on `Collection.Protocol`. Conformers do not implement these accessors; satisfying the four primitive requirements (`startIndex`, `endIndex`, `subscript`, `index(after:)`) is sufficient. The accessors compose with the phantom-tagged `Property<Tag, Base>.Inout` machinery from `swift-property`, so terminal ops like `.min(by:)` and `.min.index(by:)` discover themselves at the call site without separate conformance work.
 
 `.remove.last()` requires `Collection.Remove.Last` conformance; `.remove.all()` and `.forEach.consuming { }` require `Collection.Clearable` conformance. Both are opt-in capabilities — the static `removeLast(_:)` / `removeAll(_:)` primitives let containers expose mutation only when the underlying storage supports it.
 
@@ -168,15 +168,15 @@ The single index hierarchy (`Collection.Protocol` → `Collection.Bidirectional`
 
 Direct dependencies (all already-public):
 
-- [swift-comparison-primitives](https://github.com/swift-primitives/swift-comparison-primitives) — `Comparison.Protocol`, the `Comparable`-shape conformance the `Collection.Protocol` `Index` associated type requires.
-- [swift-index-primitives](https://github.com/swift-primitives/swift-index-primitives) — `Index<Element>`, `Index.Offset`, and `Index.Count`, the typed-indexing surface the protocol family is built on.
-- [swift-order-primitives](https://github.com/swift-primitives/swift-order-primitives) — `Order.Comparator`, the comparator type `.min(by:)`, `.max(by:)`, and the index-returning variants consume.
-- [swift-property-primitives](https://github.com/swift-primitives/swift-property-primitives) — `Property<Tag, Base>.Inout`, the phantom-tagged fluent-accessor machinery that powers `.forEach { }`, `.count.where { }`, `.min(by:)`, `.max.index(by:)`, and the rest of the terminal surface.
+- [swift-comparison](https://github.com/swift-atoms/swift-comparison) — `Comparison.Protocol`, the `Comparable`-shape conformance the `Collection.Protocol` `Index` associated type requires.
+- [swift-index](https://github.com/swift-atoms/swift-index) — `Index<Element>`, `Index.Offset`, and `Index.Count`, the typed-indexing surface the protocol family is built on.
+- [swift-order](https://github.com/swift-atoms/swift-order) — `Order.Comparator`, the comparator type `.min(by:)`, `.max(by:)`, and the index-returning variants consume.
+- [swift-property](https://github.com/swift-atoms/swift-property) — `Property<Tag, Base>.Inout`, the phantom-tagged fluent-accessor machinery that powers `.forEach { }`, `.count.where { }`, `.min(by:)`, `.max.index(by:)`, and the rest of the terminal surface.
 Cohort siblings (Story 2 — Typed indexing and sequences):
 
 - order, index, sequence, **collection**, input, cyclic, vector — see [`data-structures-launch-2026`](https://github.com/swift-institute) for the cohort narrative.
 
-Story 1 sibling primitives ([`cardinal`](https://github.com/swift-primitives/swift-cardinal-primitives), [`ordinal`](https://github.com/swift-primitives/swift-ordinal-primitives), [`affine`](https://github.com/swift-primitives/swift-affine-primitives)) shipped 2026-05-12 and supply the counting / position / displacement primitives the index hierarchy is built on.
+Story 1 sibling primitives ([`cardinal`](https://github.com/swift-atoms/swift-cardinal), [`ordinal`](https://github.com/swift-atoms/swift-ordinal), [`affine`](https://github.com/swift-atoms/swift-affine)) shipped 2026-05-12 and supply the counting / position / displacement primitives the index hierarchy is built on.
 
 ---
 

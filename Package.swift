@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "swift-collection-primitives",
+    name: "swift-collection",
     platforms: [
         .macOS(.v27),
         .iOS(.v27),
@@ -14,193 +14,193 @@ let package = Package(
     products: [
 
         .library(
-            name: "Collection Access Random Primitives",
-            targets: ["Collection Access Random Primitives"]
+            name: "Collection Access Random",
+            targets: ["Collection Access Random"]
         ),
         .library(
-            name: "Collection Bidirectional Primitives",
-            targets: ["Collection Bidirectional Primitives"]
+            name: "Collection Bidirectional",
+            targets: ["Collection Bidirectional"]
         ),
         .library(
-            name: "Collection Max Primitives",
-            targets: ["Collection Max Primitives"]
+            name: "Collection Max",
+            targets: ["Collection Max"]
         ),
         .library(
-            name: "Collection Min Primitives",
-            targets: ["Collection Min Primitives"]
+            name: "Collection Min",
+            targets: ["Collection Min"]
         ),
         .library(
-            name: "Collection Namespace Primitives",
-            targets: ["Collection Namespace Primitives"]
+            name: "Collection Namespace",
+            targets: ["Collection Namespace"]
         ),
         .library(
-            name: "Collection Primitives Standard Library Integration",
-            targets: ["Collection Primitives Standard Library Integration"]
+            name: "Collection Standard Library Integration",
+            targets: ["Collection Standard Library Integration"]
         ),
         .library(
-            name: "Collection Protocol Primitives",
-            targets: ["Collection Protocol Primitives"]
+            name: "Collection Protocol",
+            targets: ["Collection Protocol"]
         ),
         .library(
-            name: "Collection Remove Primitives",
-            targets: ["Collection Remove Primitives"]
+            name: "Collection Remove",
+            targets: ["Collection Remove"]
         ),
         .library(
-            name: "Collection Rotated Primitives",
-            targets: ["Collection Rotated Primitives"]
+            name: "Collection Rotated",
+            targets: ["Collection Rotated"]
         ),
         .library(
-            name: "Collection Slice Primitives",
-            targets: ["Collection Slice Primitives"]
-        ),
-
-        .library(
-            name: "Collection Primitives",
-            targets: ["Collection Primitives"]
+            name: "Collection Slice",
+            targets: ["Collection Slice"]
         ),
 
         .library(
-            name: "Collection Primitives Test Support",
-            targets: ["Collection Primitives Test Support"]
+            name: "Collection",
+            targets: ["Collection"]
+        ),
+
+        .library(
+            name: "Collection Test Support",
+            targets: ["Collection Test Support"]
         ),
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-primitives/swift-comparison-primitives.git",
+            url: "https://github.com/swift-atoms/swift-comparison.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-primitives/swift-index-primitives.git",
+            url: "https://github.com/swift-atoms/swift-index.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-primitives/swift-iterator-primitives.git",
+            url: "https://github.com/swift-atoms/swift-iterator.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-primitives/swift-order-primitives.git",
+            url: "https://github.com/swift-atoms/swift-order.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-primitives/swift-property-primitives.git",
+            url: "https://github.com/swift-atoms/swift-property.git",
             branch: "main"
         ),
     ],
     targets: [
 
         .target(
-            name: "Collection Namespace Primitives"
+            name: "Collection Namespace"
         ),
 
         .target(
-            name: "Collection Protocol Primitives",
+            name: "Collection Protocol",
             dependencies: [
-                "Collection Namespace Primitives",
-                .product(name: "Comparison Primitives", package: "swift-comparison-primitives"),
-                .product(name: "Index Primitives", package: "swift-index-primitives"),
-                .product(name: "Iterable", package: "swift-iterator-primitives"),
+                .target(name: "Collection Namespace"),
+                .product(name: "Comparison", package: "swift-comparison"),
+                .product(name: "Index", package: "swift-index"),
+                .product(name: "Iterable", package: "swift-iterator"),
             ]
         ),
 
         .target(
-            name: "Collection Bidirectional Primitives",
+            name: "Collection Bidirectional",
             dependencies: [
-                "Collection Namespace Primitives",
-                "Collection Protocol Primitives",
+                .target(name: "Collection Namespace"),
+                .target(name: "Collection Protocol"),
             ]
         ),
 
         .target(
-            name: "Collection Access Random Primitives",
+            name: "Collection Access Random",
             dependencies: [
-                "Collection Bidirectional Primitives",
-                "Collection Namespace Primitives",
-                "Collection Protocol Primitives",
+                .target(name: "Collection Bidirectional"),
+                .target(name: "Collection Namespace"),
+                .target(name: "Collection Protocol"),
             ]
         ),
 
         .target(
-            name: "Collection Max Primitives",
+            name: "Collection Max",
             dependencies: [
-                "Collection Protocol Primitives",
-                .product(name: "Order Primitives", package: "swift-order-primitives"),
-                .product(name: "Property Primitives", package: "swift-property-primitives"),
+                .target(name: "Collection Protocol"),
+                .product(name: "Order", package: "swift-order"),
+                .product(name: "Property", package: "swift-property"),
             ]
         ),
 
         .target(
-            name: "Collection Min Primitives",
+            name: "Collection Min",
             dependencies: [
-                "Collection Protocol Primitives",
-                .product(name: "Order Primitives", package: "swift-order-primitives"),
-                .product(name: "Property Primitives", package: "swift-property-primitives"),
+                .target(name: "Collection Protocol"),
+                .product(name: "Order", package: "swift-order"),
+                .product(name: "Property", package: "swift-property"),
             ]
         ),
 
         .target(
-            name: "Collection Remove Primitives",
+            name: "Collection Remove",
             dependencies: [
-                "Collection Protocol Primitives"
+                .target(name: "Collection Protocol")
             ]
         ),
 
         .target(
-            name: "Collection Rotated Primitives",
+            name: "Collection Rotated",
             dependencies: [
-                "Collection Namespace Primitives",
-                .product(name: "Index Primitives", package: "swift-index-primitives"),
+                .target(name: "Collection Namespace"),
+                .product(name: "Index", package: "swift-index"),
             ]
         ),
 
         .target(
-            name: "Collection Slice Primitives",
+            name: "Collection Slice",
             dependencies: [
-                "Collection Protocol Primitives",
-                .product(name: "Property Primitives", package: "swift-property-primitives"),
+                .target(name: "Collection Protocol"),
+                .product(name: "Property", package: "swift-property"),
             ]
         ),
 
         .target(
-            name: "Collection Primitives Standard Library Integration",
+            name: "Collection Standard Library Integration",
             dependencies: [
-                "Collection Access Random Primitives",
-                "Collection Bidirectional Primitives",
-                "Collection Protocol Primitives",
+                .target(name: "Collection Access Random"),
+                .target(name: "Collection Bidirectional"),
+                .target(name: "Collection Protocol"),
             ]
         ),
 
         .target(
-            name: "Collection Primitives",
+            name: "Collection",
             dependencies: [
-                "Collection Access Random Primitives",
-                "Collection Bidirectional Primitives",
-                "Collection Max Primitives",
-                "Collection Min Primitives",
-                "Collection Namespace Primitives",
-                "Collection Primitives Standard Library Integration",
-                "Collection Protocol Primitives",
-                "Collection Remove Primitives",
-                "Collection Rotated Primitives",
-                "Collection Slice Primitives",
+                .target(name: "Collection Access Random"),
+                .target(name: "Collection Bidirectional"),
+                .target(name: "Collection Max"),
+                .target(name: "Collection Min"),
+                .target(name: "Collection Namespace"),
+                .target(name: "Collection Standard Library Integration"),
+                .target(name: "Collection Protocol"),
+                .target(name: "Collection Remove"),
+                .target(name: "Collection Rotated"),
+                .target(name: "Collection Slice"),
             ]
         ),
 
         .target(
-            name: "Collection Primitives Test Support",
+            name: "Collection Test Support",
             dependencies: [
-                "Collection Primitives",
-                .product(name: "Index Primitives Test Support", package: "swift-index-primitives"),
-                .product(name: "Iterable", package: "swift-iterator-primitives"),
-                .product(name: "Iterator Chunk Primitives", package: "swift-iterator-primitives"),
+                .target(name: "Collection"),
+                .product(name: "Index Test Support", package: "swift-index"),
+                .product(name: "Iterable", package: "swift-iterator"),
+                .product(name: "Iterator Chunk", package: "swift-iterator"),
             ],
             path: "Tests/Support"
         ),
         .testTarget(
-            name: "Collection Primitives Tests",
+            name: "Collection Tests",
             dependencies: [
-                "Collection Primitives",
-                "Collection Primitives Test Support",
-                .product(name: "Iterable", package: "swift-iterator-primitives"),
+                .target(name: "Collection"),
+                .target(name: "Collection Test Support"),
+                .product(name: "Iterable", package: "swift-iterator"),
             ]
         ),
     ],

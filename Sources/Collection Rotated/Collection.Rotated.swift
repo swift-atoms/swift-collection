@@ -1,20 +1,20 @@
-public import Index_Primitives
+public import Index
 
 public struct __CollectionRotated<Base: RandomAccessCollection>: RandomAccessCollection {
     @usableFromInline
     let base: Base
 
     @usableFromInline
-    let _offset: Index_Primitives.Index<Base.Element>.Offset
+    let _offset: Index.Index<Base.Element>.Offset
 
     @usableFromInline
-    let _count: Index_Primitives.Index<Base.Element>.Count
+    let _count: Index.Index<Base.Element>.Count
 
     @inlinable
-    public init(base: Base, startOffset: Index_Primitives.Index<Base.Element>.Offset) {
+    public init(base: Base, startOffset: Index.Index<Base.Element>.Offset) {
         self.base = base
         let count = base.count
-        self._count = Index_Primitives.Index<Base.Element>.Count(_unchecked: Cardinal(UInt(count)))
+        self._count = Index.Index<Base.Element>.Count(_unchecked: Cardinal(UInt(count)))
 
         if base.isEmpty {
             self._offset = .zero
@@ -22,14 +22,14 @@ public struct __CollectionRotated<Base: RandomAccessCollection>: RandomAccessCol
 
             let offsetValue = Int(bitPattern: startOffset)
             let normalizedValue = ((offsetValue % count) + count) % count
-            self._offset = Index_Primitives.Index<Base.Element>.Offset(normalizedValue)
+            self._offset = Index.Index<Base.Element>.Offset(normalizedValue)
         }
     }
 }
 
 extension Collection.Rotated {
 
-    public typealias Index = Index_Primitives.Index<Base.Element>
+    public typealias Index = Index.Index<Base.Element>
 }
 
 extension Collection.Rotated {

@@ -1,7 +1,7 @@
-public import Collection_Primitives
-public import Index_Primitives
+public import Collection
+public import Index
 public import Iterable
-public import Iterator_Chunk_Primitives
+public import Iterator_Chunk
 
 extension Collection {
 
@@ -25,20 +25,20 @@ extension Collection.Fixture {
 extension Collection.Fixture.Source {
 
     @inlinable
-    public var startIndex: Index_Primitives.Index<Element> { .zero }
+    public var startIndex: Index.Index<Element> { .zero }
 
     @inlinable
-    public var endIndex: Index_Primitives.Index<Element> {
-        Index_Primitives.Index<Element>(_unchecked: Ordinal(UInt(_elements.count)))
+    public var endIndex: Index.Index<Element> {
+        Index.Index<Element>(_unchecked: Ordinal(UInt(_elements.count)))
     }
 
     @inlinable
-    public subscript(_ position: Index_Primitives.Index<Element>) -> Element {
+    public subscript(_ position: Index.Index<Element>) -> Element {
         _elements[Int(bitPattern: position)]
     }
 
     @inlinable
-    public func index(after i: Index_Primitives.Index<Element>) -> Index_Primitives.Index<Element> {
+    public func index(after i: Index.Index<Element>) -> Index.Index<Element> {
         i.successor.saturating()
     }
 }
@@ -47,7 +47,7 @@ extension Collection.Fixture.Source {
 
     @inlinable
     @_lifetime(borrow self)
-    public borrowing func makeIterator() -> Iterator_Chunk_Primitives.Iterator.Chunk<Element> {
-        Iterator_Chunk_Primitives.Iterator.Chunk(_elements.span)
+    public borrowing func makeIterator() -> Iterator_Chunk.Iterator.Chunk<Element> {
+        Iterator_Chunk.Iterator.Chunk(_elements.span)
     }
 }
