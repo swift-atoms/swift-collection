@@ -1,6 +1,6 @@
 public import Cardinal
 public import Index
-public import Ordinal_Protocol
+public import Ordinal
 public import Sequence_Borrowing
 public import Tagged
 

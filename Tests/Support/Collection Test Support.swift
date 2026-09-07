@@ -3,8 +3,6 @@ public import Index
 public import Iterator
 public import Iterator_Chunk
 public import Ordinal
-public import Ordinal_Successor
-public import Ordinal_Tagged
 internal import Sequence_Borrowing
 public import Tagged
 

@@ -1,17 +1,7 @@
-public import Affine_Arithmetic
-public import Affine_Carrier
-public import Affine_Discrete
-public import Affine_Standard_Library_Integration
-public import Affine_Tagged
+public import Affine
 public import Cardinal
 public import Index
 public import Ordinal
-public import Ordinal_Cardinal
-internal import Ordinal_Error
-public import Ordinal_Predecessor
-public import Ordinal_Protocol
-public import Ordinal_Successor
-public import Ordinal_Tagged
 public import Tagged
 
 public struct __CollectionRotated<Base: RandomAccessCollection>: RandomAccessCollection {
@@ -34,9 +24,10 @@ public struct __CollectionRotated<Base: RandomAccessCollection>: RandomAccessCol
             self._offset = .zero
         } else {
 
-            let offsetValue = Int(bitPattern: startOffset)
-            let normalizedValue = ((offsetValue % count) + count) % count
-            self._offset = Index::Index<Base.Element>.Offset(normalizedValue)
+            let remainder = startOffset.difference.magnitude.value.rawValue % UInt(count)
+            let normalized = startOffset.difference.polarity == .negative && remainder != 0
+                ? UInt(count) - remainder : remainder
+            self._offset = Index::Index<Base.Element>.Offset(Int(normalized))
         }
     }
 }
@@ -81,11 +72,7 @@ extension Collection.Rotated {
     @inlinable
 
     public func distance(from start: Index, to end: Index) -> Int {
-        do throws(Affine.Discrete.Vector.Error) {
-            return Int(bitPattern: try end - start as Affine.Discrete.Vector)
-        } catch {
-            return .zero
-        }
+        try! (end - start).difference.intValue()
     }
 
     @inlinable

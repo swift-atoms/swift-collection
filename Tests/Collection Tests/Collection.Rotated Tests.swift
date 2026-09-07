@@ -1,12 +1,7 @@
-import Affine_Carrier
-import Affine_Tagged
+import Affine
 import Cardinal
-import Cardinal_Carrier
 import Index
 import Ordinal
-import Ordinal_Cardinal
-import Ordinal_Protocol
-import Ordinal_Tagged
 import Tagged
 import Testing
 
@@ -199,5 +194,16 @@ extension Collection.`Rotated Test`.Integration {
         let rotated = Collection.Rotated(base: slice, startOffset: .one)
 
         #expect(Array(rotated) == [2, 3, 4, 1])
+    }
+}
+
+extension Collection.`Rotated Test`.`Edge Case` {
+    @Test(arguments: [-1, -4, Int.min, Int.max])
+    func `signed offsets normalize without integer overflow`(_ offset: Int) {
+        let rotated = Collection.Rotated(base: [0, 1, 2], startOffset: .init(offset))
+        let remainder = offset % 3
+        let normalized = remainder < 0 ? remainder + 3 : remainder
+        #expect(Array(rotated) == (0..<3).map { ($0 + normalized) % 3 })
+        #expect(rotated.distance(from: rotated.endIndex, to: rotated.startIndex) == -3)
     }
 }
