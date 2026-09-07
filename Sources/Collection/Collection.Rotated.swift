@@ -90,9 +90,9 @@ extension Collection.Rotated {
     }
 }
 
-extension Collection.Rotated: Sendable where Base: Sendable {}
-
 extension Collection {
 
     public typealias Rotated<Base: RandomAccessCollection> = __CollectionRotated<Base>
 }
+
+extension Collection.Rotated: Swift.Sendable where Base: Swift.Sendable {}

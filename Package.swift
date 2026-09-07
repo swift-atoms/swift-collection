@@ -13,8 +13,8 @@ let package = Package(
     ],
     products: [
         .library(name: "Collection", targets: ["Collection"]),
-        .library(name: "Collection Standard Library Integration", targets: ["Collection Standard Library Integration"]),
-        .library(name: "Collection Foundation Library Integration", targets: ["Collection Foundation Library Integration"]),
+
+        .library(name: "Collection Foundation Integration", targets: ["Collection Foundation Integration"]),
         .library(name: "Collection Test Support", targets: ["Collection Test Support"]),
     ],
     dependencies: [
@@ -75,20 +75,13 @@ let package = Package(
             ],
             path: "Sources/Collection"
         ),
+        
         .target(
-            name: "Collection Standard Library Integration",
+            name: "Collection Foundation Integration",
             dependencies: [
                 .target(name: "Collection"),
             ],
-            path: "Sources/Collection Standard Library Integration"
-        ),
-        .target(
-            name: "Collection Foundation Library Integration",
-            dependencies: [
-                .target(name: "Collection"),
-                .target(name: "Collection Standard Library Integration"),
-            ],
-            path: "Sources/Collection Foundation Library Integration"
+            path: "Sources/Collection Foundation Integration"
         ),
         .target(
             name: "Collection Test Support",
@@ -113,8 +106,7 @@ let package = Package(
                 .product(name: "Ordinal", package: "swift-ordinal"),
                 .product(name: "Sequence", package: "swift-sequence"),
                 .product(name: "Tagged", package: "swift-tagged"),
-                .target(name: "Collection Standard Library Integration"),
-                .target(name: "Collection Foundation Library Integration"),
+                .target(name: "Collection Foundation Integration"),
             ],
             path: "Tests/Collection Tests"
         ),
