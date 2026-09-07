@@ -1,6 +1,6 @@
 public import Comparison_Protocol
 public import Order_Comparator
-public import Property_Inout
+public import Property
 
 extension Property::Property.Inout
 where Base: Collection.`Protocol` & ~Copyable, Base.Index: Escapable, Tag == Collection.Min {

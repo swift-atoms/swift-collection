@@ -1,4 +1,4 @@
-public import Property_Inout
+public import Property
 
 extension Collection.Slice.`Protocol` where Self: ~Copyable {
 
