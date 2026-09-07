@@ -7,12 +7,12 @@ import Testing
 
 extension Collection {
     @Suite
-    struct `ForEach Test` {
-        @Suite struct Inherited {}
+    struct `Collections inherit ordered and repeatable element visits` {
+        @Suite struct `Inherited element visits preserve collection contents and order` {}
     }
 }
 
-extension Collection.`ForEach Test`.Inherited {
+extension Collection.`Collections inherit ordered and repeatable element visits`.`Inherited element visits preserve collection contents and order` {
 
     @Test
     func `inherited forEach visits every element in order`() {

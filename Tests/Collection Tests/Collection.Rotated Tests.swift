@@ -16,14 +16,14 @@ private func count<Element>(
 
 extension Collection {
     @Suite
-    struct `Rotated Test` {
-        @Suite struct Unit {}
-        @Suite struct `Edge Case` {}
-        @Suite struct Integration {}
+    struct `Rotated collections preserve indexed elements under normalized offsets` {
+        @Suite struct `Rotated collection indices and elements follow the normalized offset` {}
+        @Suite struct `Rotation preserves empty singleton and extreme offset behavior` {}
+        @Suite struct `Rotation composes across nested collections and slices` {}
     }
 }
 
-extension Collection.`Rotated Test`.Unit {
+extension Collection.`Rotated collections preserve indexed elements under normalized offsets`.`Rotated collection indices and elements follow the normalized offset` {
 
     @Test
     func `rotation by 0 returns original order`() {
@@ -112,7 +112,7 @@ extension Collection.`Rotated Test`.Unit {
     }
 
     @Test
-    func `subscript access at various positions`() {
+    func `Rotated subscripts follow the normalized element order`() {
         let original = ["a", "b", "c", "d", "e"]
         let rotated = Collection.Rotated(
             base: original,
@@ -130,7 +130,7 @@ extension Collection.`Rotated Test`.Unit {
     }
 
     @Test
-    func `index arithmetic`() {
+    func `Rotated index arithmetic preserves offsets and distances`() {
         let rotated = Collection.Rotated(base: [1, 2, 3, 4, 5], startOffset: .one)
 
         let idx0: Index::Index<Int> = .zero
@@ -146,7 +146,7 @@ extension Collection.`Rotated Test`.Unit {
     }
 
     @Test
-    func `reversed iteration`() {
+    func `Reversed traversal reverses the rotated element order`() {
         let original = [1, 2, 3, 4]
         let rotated = Collection.Rotated(base: original, startOffset: .one)
 
@@ -154,10 +154,10 @@ extension Collection.`Rotated Test`.Unit {
     }
 }
 
-extension Collection.`Rotated Test`.`Edge Case` {
+extension Collection.`Rotated collections preserve indexed elements under normalized offsets`.`Rotation preserves empty singleton and extreme offset behavior` {
 
     @Test
-    func `empty collection rotation`() {
+    func `Rotating an empty collection preserves emptiness`() {
         let empty: [Int] = []
         let rotated = Collection.Rotated(
             base: empty,
@@ -168,7 +168,7 @@ extension Collection.`Rotated Test`.`Edge Case` {
     }
 
     @Test
-    func `single element rotation`() {
+    func `Rotating a single element preserves that element`() {
         let single = [42]
         let rotated = Collection.Rotated(base: single, startOffset: .one)
 
@@ -176,10 +176,10 @@ extension Collection.`Rotated Test`.`Edge Case` {
     }
 }
 
-extension Collection.`Rotated Test`.Integration {
+extension Collection.`Rotated collections preserve indexed elements under normalized offsets`.`Rotation composes across nested collections and slices` {
 
     @Test
-    func `nested rotation`() {
+    func `Nested rotations compose their offsets`() {
         let original = [1, 2, 3, 4]
         let rotated1 = Collection.Rotated(base: original, startOffset: .one)
         let rotated2 = Collection.Rotated(base: rotated1, startOffset: .one)
@@ -188,7 +188,7 @@ extension Collection.`Rotated Test`.Integration {
     }
 
     @Test
-    func `works with ArraySlice`() {
+    func `Rotation preserves the elements of an array slice`() {
         let array = [0, 1, 2, 3, 4, 5]
         let slice = array[1..<5]
         let rotated = Collection.Rotated(base: slice, startOffset: .one)
@@ -197,7 +197,7 @@ extension Collection.`Rotated Test`.Integration {
     }
 }
 
-extension Collection.`Rotated Test`.`Edge Case` {
+extension Collection.`Rotated collections preserve indexed elements under normalized offsets`.`Rotation preserves empty singleton and extreme offset behavior` {
     @Test(arguments: [-1, -4, Int.min, Int.max])
     func `signed offsets normalize without integer overflow`(_ offset: Int) {
         let rotated = Collection.Rotated(base: [0, 1, 2], startOffset: .init(offset))
