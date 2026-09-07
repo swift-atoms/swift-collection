@@ -12,57 +12,10 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-
-        .library(
-            name: "Collection Access Random",
-            targets: ["Collection Access Random"]
-        ),
-        .library(
-            name: "Collection Bidirectional",
-            targets: ["Collection Bidirectional"]
-        ),
-        .library(
-            name: "Collection Max",
-            targets: ["Collection Max"]
-        ),
-        .library(
-            name: "Collection Min",
-            targets: ["Collection Min"]
-        ),
-        .library(
-            name: "Collection Namespace",
-            targets: ["Collection Namespace"]
-        ),
-        .library(
-            name: "Collection Standard Library Integration",
-            targets: ["Collection Standard Library Integration"]
-        ),
-        .library(
-            name: "Collection Protocol",
-            targets: ["Collection Protocol"]
-        ),
-        .library(
-            name: "Collection Remove",
-            targets: ["Collection Remove"]
-        ),
-        .library(
-            name: "Collection Rotated",
-            targets: ["Collection Rotated"]
-        ),
-        .library(
-            name: "Collection Slice",
-            targets: ["Collection Slice"]
-        ),
-
-        .library(
-            name: "Collection",
-            targets: ["Collection"]
-        ),
-
-        .library(
-            name: "Collection Test Support",
-            targets: ["Collection Test Support"]
-        ),
+        .library(name: "Collection", targets: ["Collection"]),
+        .library(name: "Collection Standard Library Integration", targets: ["Collection Standard Library Integration"]),
+        .library(name: "Collection Foundation Library Integration", targets: ["Collection Foundation Library Integration"]),
+        .library(name: "Collection Test Support", targets: ["Collection Test Support"]),
     ],
     dependencies: [
         .package(
@@ -107,123 +60,44 @@ let package = Package(
         ),
     ],
     targets: [
-
-        .target(
-            name: "Collection Namespace"
-        ),
-
-        .target(
-            name: "Collection Protocol",
-            dependencies: [
-                .target(name: "Collection Namespace"),
-                .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(name: "Comparison Protocol", package: "swift-comparison"),
-                .product(name: "Index", package: "swift-index"),
-                .product(name: "Ordinal", package: "swift-ordinal"),
-                .product(name: "Sequence Borrowing", package: "swift-sequence"),
-                .product(name: "Tagged", package: "swift-tagged"),
-            ]
-        ),
-
-        .target(
-            name: "Collection Bidirectional",
-            dependencies: [
-                .target(name: "Collection Namespace"),
-                .target(name: "Collection Protocol"),
-            ]
-        ),
-
-        .target(
-            name: "Collection Access Random",
-            dependencies: [
-                .target(name: "Collection Bidirectional"),
-                .target(name: "Collection Namespace"),
-                .target(name: "Collection Protocol"),
-            ]
-        ),
-
-        .target(
-            name: "Collection Max",
-            dependencies: [
-                .target(name: "Collection Protocol"),
-                .product(name: "Comparison Protocol", package: "swift-comparison"),
-                .product(name: "Order Comparator", package: "swift-order"),
-                .product(name: "Property", package: "swift-property"),
-            ]
-        ),
-
-        .target(
-            name: "Collection Min",
-            dependencies: [
-                .target(name: "Collection Protocol"),
-                .product(name: "Comparison Protocol", package: "swift-comparison"),
-                .product(name: "Order Comparator", package: "swift-order"),
-                .product(name: "Property", package: "swift-property"),
-            ]
-        ),
-
-        .target(
-            name: "Collection Remove",
-            dependencies: [
-                .target(name: "Collection Protocol"),
-                .product(name: "Sequence Borrowing", package: "swift-sequence"),
-            ]
-        ),
-
-        .target(
-            name: "Collection Rotated",
-            dependencies: [
-                .target(name: "Collection Namespace"),
-                .product(name: "Affine", package: "swift-affine"),
-                .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(name: "Index", package: "swift-index"),
-                .product(name: "Ordinal", package: "swift-ordinal"),
-                .product(name: "Tagged", package: "swift-tagged"),
-            ]
-        ),
-
-        .target(
-            name: "Collection Slice",
-            dependencies: [
-                .target(name: "Collection Protocol"),
-                .product(name: "Property", package: "swift-property"),
-            ]
-        ),
-
-        .target(
-            name: "Collection Standard Library Integration",
-            dependencies: [
-                .target(name: "Collection Access Random"),
-                .target(name: "Collection Bidirectional"),
-                .target(name: "Collection Protocol"),
-            ]
-        ),
-
         .target(
             name: "Collection",
             dependencies: [
-                .target(name: "Collection Access Random"),
-                .target(name: "Collection Bidirectional"),
-                .target(name: "Collection Max"),
-                .target(name: "Collection Min"),
-                .target(name: "Collection Namespace"),
-                .target(name: "Collection Standard Library Integration"),
-                .target(name: "Collection Protocol"),
-                .target(name: "Collection Remove"),
-                .target(name: "Collection Rotated"),
-                .target(name: "Collection Slice"),
-            ]
+                .product(name: "Cardinal", package: "swift-cardinal"),
+                .product(name: "Comparison", package: "swift-comparison"),
+                .product(name: "Index", package: "swift-index"),
+                .product(name: "Ordinal", package: "swift-ordinal"),
+                .product(name: "Sequence", package: "swift-sequence"),
+                .product(name: "Tagged", package: "swift-tagged"),
+                .product(name: "Order", package: "swift-order"),
+                .product(name: "Property", package: "swift-property"),
+                .product(name: "Affine", package: "swift-affine"),
+            ],
+            path: "Sources/Collection"
         ),
-
+        .target(
+            name: "Collection Standard Library Integration",
+            dependencies: [
+                .target(name: "Collection"),
+            ],
+            path: "Sources/Collection Standard Library Integration"
+        ),
+        .target(
+            name: "Collection Foundation Library Integration",
+            dependencies: [
+                .target(name: "Collection"),
+                .target(name: "Collection Standard Library Integration"),
+            ],
+            path: "Sources/Collection Foundation Library Integration"
+        ),
         .target(
             name: "Collection Test Support",
             dependencies: [
                 .target(name: "Collection"),
                 .product(name: "Index", package: "swift-index"),
                 .product(name: "Iterator", package: "swift-iterator"),
-                .product(name: "Iterator Chunk", package: "swift-iterator"),
                 .product(name: "Ordinal", package: "swift-ordinal"),
-                .product(name: "Sequence Borrowing", package: "swift-sequence"),
+                .product(name: "Sequence", package: "swift-sequence"),
                 .product(name: "Tagged", package: "swift-tagged"),
             ],
             path: "Tests/Support"
@@ -237,16 +111,19 @@ let package = Package(
                 .product(name: "Cardinal", package: "swift-cardinal"),
                 .product(name: "Index", package: "swift-index"),
                 .product(name: "Ordinal", package: "swift-ordinal"),
-                .product(name: "Sequence ForEach", package: "swift-sequence"),
+                .product(name: "Sequence", package: "swift-sequence"),
                 .product(name: "Tagged", package: "swift-tagged"),
-            ]
+                .target(name: "Collection Standard Library Integration"),
+                .target(name: "Collection Foundation Library Integration"),
+            ],
+            path: "Tests/Collection Tests"
         ),
     ],
     swiftLanguageModes: [.v6]
 )
 
-for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
-    let ecosystem: [SwiftSetting] = [
+for target in package.targets {
+    target.swiftSettings = [
         .strictMemorySafety(),
         .enableUpcomingFeature("ExistentialAny"),
         .enableUpcomingFeature("InternalImportsByDefault"),
@@ -255,8 +132,4 @@ for target in package.targets where ![.system, .binary, .plugin, .macro].contain
         .enableExperimentalFeature("Lifetimes"),
         .enableUpcomingFeature("InferIsolatedConformances"),
     ]
-
-    let package: [SwiftSetting] = []
-
-    target.swiftSettings = (target.swiftSettings ?? []) + ecosystem + package
 }

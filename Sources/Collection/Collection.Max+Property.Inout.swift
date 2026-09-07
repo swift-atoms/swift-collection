@@ -1,9 +1,9 @@
-public import Comparison_Protocol
-public import Order_Comparator
+public import Comparison
+public import Order
 public import Property
 
 extension Property::Property.Inout
-where Base: Collection.`Protocol` & ~Copyable, Base.Index: Escapable, Tag == Collection.Min {
+where Base: Collection.`Protocol` & ~Copyable, Base.Index: Escapable, Tag == Collection.Max {
 
     @inlinable
     public func index(by comparator: Order::Order.Comparator<Base.Element>) -> Base.Index? {
@@ -13,7 +13,7 @@ where Base: Collection.`Protocol` & ~Copyable, Base.Index: Escapable, Tag == Col
         var bestIndex = index
         index = base.value.index(after: index)
         while index < endIndex {
-            if comparator(base.value[index], base.value[bestIndex]) == .less {
+            if comparator(base.value[index], base.value[bestIndex]) == .greater {
                 bestIndex = index
             }
             index = base.value.index(after: index)
@@ -27,7 +27,7 @@ where
     Base: Collection.`Protocol` & ~Copyable,
     Base.Index: Escapable,
     Base.Element: Comparison::Comparison.`Protocol` & SendableMetatype,
-    Tag == Collection.Min
+    Tag == Collection.Max
 {
 
     @inlinable
@@ -41,7 +41,7 @@ where
     Base: Collection.`Protocol` & ~Copyable,
     Base.Index: Escapable,
     Base.Element: Copyable,
-    Tag == Collection.Min
+    Tag == Collection.Max
 {
 
     @inlinable
@@ -58,7 +58,7 @@ where
     Base: Collection.`Protocol` & ~Copyable,
     Base.Index: Escapable,
     Base.Element: Copyable & Comparison::Comparison.`Protocol` & SendableMetatype,
-    Tag == Collection.Min
+    Tag == Collection.Max
 {
 
     @inlinable

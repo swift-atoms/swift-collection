@@ -1,6 +1,6 @@
 import Collection_Test_Support
 import Index
-import Sequence_ForEach
+import Sequence
 import Testing
 
 @testable import Collection

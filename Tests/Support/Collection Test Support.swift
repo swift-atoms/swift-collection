@@ -1,9 +1,8 @@
 public import Collection
 public import Index
 public import Iterator
-public import Iterator_Chunk
 public import Ordinal
-internal import Sequence_Borrowing
+internal import Sequence
 public import Tagged
 
 extension Collection {

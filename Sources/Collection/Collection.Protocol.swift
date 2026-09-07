@@ -1,6 +1,6 @@
-public import Comparison_Protocol
+public import Comparison
 public import Index
-public import Sequence_Borrowing
+public import Sequence
 
 extension Collection {
 

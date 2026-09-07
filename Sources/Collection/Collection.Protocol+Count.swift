@@ -1,7 +1,7 @@
 public import Cardinal
 public import Index
 public import Ordinal
-public import Sequence_Borrowing
+public import Sequence
 public import Tagged
 
 extension Collection.`Protocol` where Self: ~Copyable {

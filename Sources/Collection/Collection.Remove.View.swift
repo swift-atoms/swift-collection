@@ -1,4 +1,4 @@
-public import Sequence_Borrowing
+public import Sequence
 
 extension Collection.Remove {
 
