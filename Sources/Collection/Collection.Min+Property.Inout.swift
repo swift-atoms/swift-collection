@@ -2,6 +2,16 @@ public import Comparison
 public import Order
 public import Property
 
+extension Collection.`Protocol` where Self: ~Copyable {
+
+    @inlinable
+    public var min: Property::Property<Collection.Min, Self>.Inout {
+        mutating _read {
+            yield Property::Property<Collection.Min, Self>.Inout(&self)
+        }
+    }
+}
+
 extension Property::Property.Inout
 where Base: Collection.`Protocol` & ~Copyable, Base.Index: Escapable, Tag == Collection.Min {
 

@@ -18,6 +18,9 @@ let package = Package(
         .library(name: "Collection Test Support", targets: ["Collection Test Support"]),
     ],
     dependencies: [
+
+        .package(url: "https://github.com/swift-atoms/swift-ownership.git", branch: "main"),
+
         .package(
             url: "https://github.com/swift-atoms/swift-comparison.git",
             branch: "main"
@@ -109,6 +112,20 @@ let package = Package(
                 .target(name: "Collection Foundation Integration"),
             ],
             path: "Tests/Collection Tests"
+        ),
+        .testTarget(
+            name: "Consolidated Collection Property Tests",
+            dependencies: [
+                .product(name: "Tagged", package: "swift-tagged"),
+
+                .target(name: "Collection"),
+                .product(name: "Comparison", package: "swift-comparison"),
+                .product(name: "Order", package: "swift-order"),
+                .product(name: "Ownership", package: "swift-ownership"),
+                .product(name: "Property", package: "swift-property"),
+                .product(name: "Iterator", package: "swift-iterator"),
+            ],
+            path: "Tests/Consolidated swift-collection-property"
         ),
     ],
     swiftLanguageModes: [.v6]
