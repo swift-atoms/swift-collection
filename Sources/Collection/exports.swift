@@ -1,4 +1,3 @@
-@_exported public import Affine
 @_exported public import Cardinal
 @_exported public import Comparison
 @_exported public import Index

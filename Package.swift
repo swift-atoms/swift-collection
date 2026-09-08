@@ -38,10 +38,6 @@ let package = Package(
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-atoms/swift-affine.git",
-            branch: "main"
-        ),
-        .package(
             url: "https://github.com/swift-atoms/swift-cardinal.git",
             branch: "main"
         ),
@@ -74,7 +70,6 @@ let package = Package(
                 .product(name: "Tagged", package: "swift-tagged"),
                 .product(name: "Order", package: "swift-order"),
                 .product(name: "Property", package: "swift-property"),
-                .product(name: "Affine", package: "swift-affine"),
             ],
             path: "Sources/Collection"
         ),
@@ -103,7 +98,6 @@ let package = Package(
             dependencies: [
                 .target(name: "Collection"),
                 .target(name: "Collection Test Support"),
-                .product(name: "Affine", package: "swift-affine"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
                 .product(name: "Index", package: "swift-index"),
                 .product(name: "Ordinal", package: "swift-ordinal"),

@@ -1,4 +1,3 @@
-public import Affine
 public import Cardinal
 public import Index
 public import Ordinal
