@@ -65,6 +65,10 @@ let package = Package(
         ),
     ],
     targets: [
+        .testTarget(name: "Prefix Collection Tests", dependencies: [
+            .target(name: "Collection"),
+            .product(name: "Prefix", package: "swift-prefix", condition: .when(traits: ["Prefix"])),
+        ]),
         .target(
             name: "Collection",
             dependencies: [

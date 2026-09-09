@@ -9,3 +9,6 @@ no separate integration product is required.
 `end(inCollection:)` borrows custom collections to select a boundary. These APIs
 moved from the retired Prefix Collection product into Collection; import Collection
 to use them. Prefix itself no longer depends on Collection or Iterator.
+
+The Prefix integration also owns Swift.Collection selection and slice adapters.
+They delegate bounds and candidate search to Prefix’s position-based traversal.
