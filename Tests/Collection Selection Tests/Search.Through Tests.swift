@@ -1,22 +1,25 @@
-#if Prefix
+#if Search && Repetition
 import Collection
-import Prefix
+import Search
+import Repetition
+import Cardinal
+import Predicate
 import Testing
 
 @Suite
-struct `Prefix.Through Tests` {
+struct `Search.Through Tests` {
     @Test
     func `selection returns a slice without mutating its source`() throws {
         let input = "abc--def"
-        let selection = Prefix.Through("--")
+        let selection = Search("--").selecting(.end)
         #expect(try selection(input) == "abc--")
         #expect(input == "abc--def")
     }
 
     @Test
     func `an unsatisfied selection throws its typed failure`() {
-        let selection = Prefix.Through("--")
-        #expect(throws: Prefix.Through<String>.Error.delimiterNotFound) { _ = try selection("abc-") }
+        let selection = Search("--").selecting(.end)
+        #expect(throws: Search<String>.Error.notFound) { _ = try selection("abc-") }
     }
 }
 

@@ -1,10 +1,10 @@
-#if Prefix
-public import Prefix
+#if Search
+public import Search
 
-extension Prefix.Through where Delimiter: Swift.Collection, Delimiter.Element: Equatable {
+extension Search.Selection where Pattern: Swift.Collection, Pattern.Element: Equatable {
     public func end<C: Collection.`Protocol` & ~Copyable>(
         inCollection input: borrowing C
-    ) throws(Prefix.Through<Delimiter>.Error) -> C.Index where C.Element == Delimiter.Element, C.Index: Escapable {
+    ) throws(Search<Pattern>.Error) -> C.Index where C.Element == Pattern.Element, C.Index: Escapable {
         try end(from: input.startIndex, advance: { position in
             position == input.endIndex ? nil : input.index(after: position)
         }, matching: { delimiter, position in

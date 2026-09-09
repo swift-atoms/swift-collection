@@ -1,14 +1,11 @@
 # swift-collection
 
-## Prefix integration
+The default-enabled Repetition trait executes Cardinal count ranges and bounded
+Predicate repetition. The Search trait finds complete matches and projects their
+start or end boundary. These integrations support Swift collections and the
+custom Collection protocol, with no dependency on swift-prefix.
 
-The default-enabled `Prefix` trait supplies this package's interpretation of the
-independent prefix selectors from swift-prefix. Use this package's library product;
-no separate integration product is required.
-
-`end(inCollection:)` borrows custom collections to select a boundary. These APIs
-moved from the retired Prefix Collection product into Collection; import Collection
-to use them. Prefix itself no longer depends on Collection or Iterator.
-
-The Prefix integration also owns Swift.Collection selection and slice adapters.
-They delegate bounds and candidate search to Prefix’s position-based traversal.
+Boundary selection does not consume input; parser adapters commit after successful
+selection. Slice-returning operations avoid materializing arrays. Custom collection
+boundary selection can borrow noncopyable sources; owned slice results retain the
+existing collection slice ownership restrictions.

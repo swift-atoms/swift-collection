@@ -1,9 +1,9 @@
-#if Prefix
-public import Prefix
+#if Search
+public import Search
 
-extension Prefix.UpTo where Delimiter: Swift.Collection, Delimiter.Element: Equatable {
-    public func end<C: Swift.Collection>(in input: C) throws(Prefix.UpTo<Delimiter>.Error) -> C.Index
-    where C.Element == Delimiter.Element {
+extension Search.Selection where Pattern: Swift.Collection, Pattern.Element: Equatable {
+    public func end<C: Swift.Collection>(in input: C) throws(Search<Pattern>.Error) -> C.Index
+    where C.Element == Pattern.Element {
         try end(from: input.startIndex, advance: { position in
             position == input.endIndex ? nil : input.index(after: position)
         }, matching: { delimiter, position in
@@ -16,8 +16,8 @@ extension Prefix.UpTo where Delimiter: Swift.Collection, Delimiter.Element: Equa
         })
     }
 
-    public func callAsFunction<C: Swift.Collection>(_ input: C) throws(Prefix.UpTo<Delimiter>.Error) -> C.SubSequence
-    where C.Element == Delimiter.Element {
+    public func callAsFunction<C: Swift.Collection>(_ input: C) throws(Search<Pattern>.Error) -> C.SubSequence
+    where C.Element == Pattern.Element {
         input[..<(try end(in: input))]
     }
 }
