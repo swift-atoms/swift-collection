@@ -6,3 +6,7 @@
 @_exported public import Property
 @_exported public import Sequence
 @_exported public import Tagged
+
+#if Prefix
+@_exported public import Prefix
+#endif

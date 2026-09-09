@@ -17,7 +17,13 @@ let package = Package(
         .library(name: "Collection Foundation Integration", targets: ["Collection Foundation Integration"]),
         .library(name: "Collection Test Support", targets: ["Collection Test Support"]),
     ],
+    traits: [
+        .trait(name: "Prefix", description: "Prefix selection integration"),
+        .default(enabledTraits: ["Prefix"]),
+    ],
     dependencies: [
+        .package(url: "https://github.com/swift-atoms/swift-predicate.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-prefix.git", branch: "main"),
 
         .package(url: "https://github.com/swift-atoms/swift-ownership.git", branch: "main"),
 
@@ -62,6 +68,8 @@ let package = Package(
         .target(
             name: "Collection",
             dependencies: [
+                .product(name: "Prefix", package: "swift-prefix", condition: .when(traits: ["Prefix"])),
+                .product(name: "Predicate", package: "swift-predicate", condition: .when(traits: ["Prefix"])),
                 .product(name: "Cardinal", package: "swift-cardinal"),
                 .product(name: "Comparison", package: "swift-comparison"),
                 .product(name: "Index", package: "swift-index"),
