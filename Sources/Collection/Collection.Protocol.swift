@@ -1,4 +1,3 @@
-public import Comparison
 public import Index
 public import Sequence
 
@@ -10,7 +9,7 @@ extension Collection {
         Iterator.Element == Element,
         Iterator.Failure == Never
     {
-        associatedtype Index: Comparison::Comparison.`Protocol` & ~Escapable =
+        associatedtype Index: Swift.Comparable & ~Escapable =
             Index::Index<Element>
 
         var startIndex: Index { get }
