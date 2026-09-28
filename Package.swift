@@ -12,15 +12,16 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
+        .library(name: "Collection TaggedCollection Test Support", targets: ["Collection TaggedCollection Test Support"]),
         .library(name: "Collection", targets: ["Collection"]),
 
         .library(name: "Collection Foundation Integration", targets: ["Collection Foundation Integration"]),
         .library(name: "Collection Test Support", targets: ["Collection Test Support"]),
     ],
     traits: [
+        .trait(name: "TaggedCollection", description: "TaggedCollection integration"),
         .trait(name: "Search", description: "Pattern search integration"),
         .trait(name: "Repetition", description: "Bounded execution integration"),
-        .default(enabledTraits: ["Search", "Repetition"]),
     ],
     dependencies: [
         .package(url: "https://github.com/swift-atoms/swift-repetition.git", branch: "main"),
@@ -67,6 +68,24 @@ let package = Package(
         ),
     ],
     targets: [
+        .testTarget(
+            name: "Absorbed swift-tagged-collection Tests",
+            dependencies: [
+                .product(name: "Index", package: "swift-index", condition: .when(traits: ["TaggedCollection"])),
+                .product(name: "Iterator", package: "swift-iterator", condition: .when(traits: ["TaggedCollection"])),
+                .product(name: "Ordinal", package: "swift-ordinal", condition: .when(traits: ["TaggedCollection"])),
+                .product(name: "Tagged", package: "swift-tagged", condition: .when(traits: ["TaggedCollection"])),
+                .target(name: "Collection", condition: .when(traits: ["TaggedCollection"])),
+            ],
+            path: "Tests/Absorbed swift-tagged-collection Tests"
+        ),
+        .target(
+            name: "Collection TaggedCollection Test Support",
+            dependencies: [
+                .target(name: "Collection", condition: .when(traits: ["TaggedCollection"])),
+            ],
+            path: "Tests/Collection TaggedCollection Test Support"
+        ),
         .testTarget(name: "Collection Selection Tests", dependencies: [
             .product(name: "Cardinal", package: "swift-cardinal"),
             .product(name: "Predicate", package: "swift-predicate", condition: .when(traits: ["Repetition"])),
@@ -91,7 +110,7 @@ let package = Package(
             ],
             path: "Sources/Collection"
         ),
-        
+
         .target(
             name: "Collection Foundation Integration",
             dependencies: [
