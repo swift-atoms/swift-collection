@@ -29,11 +29,6 @@ let package = Package(
         .package(url: "https://github.com/swift-atoms/swift-search.git", branch: "main"),
 
         .package(url: "https://github.com/swift-atoms/swift-ownership.git", branch: "main"),
-
-        .package(
-            url: "https://github.com/swift-atoms/swift-comparison.git",
-            branch: "main"
-        ),
         .package(
             url: "https://github.com/swift-atoms/swift-index.git",
             branch: "main"
@@ -100,7 +95,7 @@ let package = Package(
                 .product(name: "Search", package: "swift-search", condition: .when(traits: ["Search"])),
                 .product(name: "Predicate", package: "swift-predicate", condition: .when(traits: ["Repetition"])),
                 .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(name: "Comparison", package: "swift-comparison"),
+                .product(name: "Order", package: "swift-order"),
                 .product(name: "Index", package: "swift-index"),
                 .product(name: "Ordinal", package: "swift-ordinal"),
                 .product(name: "Sequence", package: "swift-sequence"),
@@ -150,7 +145,7 @@ let package = Package(
                 .product(name: "Tagged", package: "swift-tagged"),
 
                 .target(name: "Collection"),
-                .product(name: "Comparison", package: "swift-comparison"),
+                .product(name: "Order", package: "swift-order"),
                 .product(name: "Order", package: "swift-order"),
                 .product(name: "Ownership", package: "swift-ownership"),
                 .product(name: "Property", package: "swift-property"),

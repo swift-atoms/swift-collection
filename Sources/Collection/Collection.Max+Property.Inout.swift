@@ -1,4 +1,3 @@
-public import Comparison
 public import Order
 public import Property
 
@@ -36,7 +35,7 @@ extension Property::Property.Inout
 where
     Base: Collection.`Protocol` & ~Copyable,
     Base.Index: Escapable,
-    Base.Element: Comparison::Comparison.`Protocol` & SendableMetatype,
+    Base.Element: Swift.Comparable & SendableMetatype,
     Tag == Collection.Max
 {
 
@@ -67,7 +66,7 @@ extension Property::Property.Inout
 where
     Base: Collection.`Protocol` & ~Copyable,
     Base.Index: Escapable,
-    Base.Element: Copyable & Comparison::Comparison.`Protocol` & SendableMetatype,
+    Base.Element: Copyable & Swift.Comparable & SendableMetatype,
     Tag == Collection.Max
 {
 

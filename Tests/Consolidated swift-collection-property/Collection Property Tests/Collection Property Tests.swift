@@ -1,7 +1,6 @@
 import Testing
 
 import Collection
-import Comparison
 import Order
 import Ownership
 import Property
