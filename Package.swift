@@ -66,10 +66,10 @@ let package = Package(
         .testTarget(
             name: "Absorbed swift-tagged-collection Tests",
             dependencies: [
-                .product(name: "Index", package: "swift-index", condition: .when(traits: ["TaggedCollection"])),
-                .product(name: "Iterator", package: "swift-iterator", condition: .when(traits: ["TaggedCollection"])),
-                .product(name: "Ordinal", package: "swift-ordinal", condition: .when(traits: ["TaggedCollection"])),
-                .product(name: "Tagged", package: "swift-tagged", condition: .when(traits: ["TaggedCollection"])),
+                .product(name: "Index", package: "swift-index"),
+                .product(name: "Iterator", package: "swift-iterator"),
+                .product(name: "Ordinal", package: "swift-ordinal"),
+                .product(name: "Tagged", package: "swift-tagged"),
                 .target(name: "Collection", condition: .when(traits: ["TaggedCollection"])),
             ],
             path: "Tests/Absorbed swift-tagged-collection Tests"
@@ -83,17 +83,17 @@ let package = Package(
         ),
         .testTarget(name: "Collection Selection Tests", dependencies: [
             .product(name: "Cardinal", package: "swift-cardinal"),
-            .product(name: "Predicate", package: "swift-predicate", condition: .when(traits: ["Repetition"])),
-            .product(name: "Repetition", package: "swift-repetition", condition: .when(traits: ["Repetition"])),
+            .product(name: "Predicate", package: "swift-predicate"),
+            .product(name: "Repetition", package: "swift-repetition"),
             .target(name: "Collection"),
-            .product(name: "Search", package: "swift-search", condition: .when(traits: ["Search"])),
+            .product(name: "Search", package: "swift-search"),
         ]),
         .target(
             name: "Collection",
             dependencies: [
-                .product(name: "Repetition", package: "swift-repetition", condition: .when(traits: ["Repetition"])),
-                .product(name: "Search", package: "swift-search", condition: .when(traits: ["Search"])),
-                .product(name: "Predicate", package: "swift-predicate", condition: .when(traits: ["Repetition"])),
+                .product(name: "Repetition", package: "swift-repetition"),
+                .product(name: "Search", package: "swift-search"),
+                .product(name: "Predicate", package: "swift-predicate"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
                 .product(name: "Order", package: "swift-order"),
                 .product(name: "Index", package: "swift-index"),
