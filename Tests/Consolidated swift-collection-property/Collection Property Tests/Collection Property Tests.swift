@@ -49,13 +49,15 @@ struct Collection_Property_Tests {
 private typealias SourceIterator<Element: ~Copyable> = Iterator.Chunk<Element>
 
 private struct Source<Element: Sendable>: Collection.`Protocol`, Collection.Slice.`Protocol` {
-    typealias Iterator = SourceIterator<Element>
-
     let elements: [Element]
 
     init(_ elements: [Element]) {
         self.elements = elements
     }
+}
+
+extension Source {
+    typealias Iterator = SourceIterator<Element>
 
     var startIndex: Int { elements.startIndex }
     var endIndex: Int { elements.endIndex }

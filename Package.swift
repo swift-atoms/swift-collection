@@ -135,7 +135,6 @@ let package = Package(
                 .product(name: "Ordinal", package: "swift-ordinal"),
                 .product(name: "Sequence", package: "swift-sequence"),
                 .product(name: "Tagged", package: "swift-tagged"),
-                .target(name: "Collection Foundation Integration"),
             ],
             path: "Tests/Collection Tests"
         ),
@@ -157,7 +156,7 @@ let package = Package(
     swiftLanguageModes: [.v6]
 )
 
-for target in package.targets where ![.system, .binary, .plugin].contains(target.type) {
+for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
     target.swiftSettings = (target.swiftSettings ?? []) + [
         .strictMemorySafety(),
         .enableUpcomingFeature("ExistentialAny"),

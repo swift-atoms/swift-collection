@@ -9,7 +9,7 @@ extension Collection {
         Iterator.Element == Element,
         Iterator.Failure == Never
     {
-        associatedtype Index: Swift.Comparable & ~Escapable =
+        associatedtype Index: Swift::Comparable & ~Escapable =
             Index::Index<Element>
 
         var startIndex: Index { get }

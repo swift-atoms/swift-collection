@@ -1,7 +1,7 @@
 #if Search
 public import Search
 
-extension Search.Selection where Pattern: Swift.Collection, Pattern.Element: Equatable {
+extension Search.Selection where Pattern: Swift::Collection, Pattern.Element: Equatable {
     public func end<C: Collection.`Protocol` & ~Copyable>(
         inCollection input: borrowing C
     ) throws(Search<Pattern>.Error) -> C.Index where C.Element == Pattern.Element, C.Index: Escapable {

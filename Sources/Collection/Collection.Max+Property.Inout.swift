@@ -35,7 +35,7 @@ extension Property::Property.Inout
 where
     Base: Collection.`Protocol` & ~Copyable,
     Base.Index: Escapable,
-    Base.Element: Swift.Comparable & SendableMetatype,
+    Base.Element: Swift::Comparable & SendableMetatype,
     Tag == Collection.Max
 {
 
@@ -66,7 +66,7 @@ extension Property::Property.Inout
 where
     Base: Collection.`Protocol` & ~Copyable,
     Base.Index: Escapable,
-    Base.Element: Copyable & Swift.Comparable & SendableMetatype,
+    Base.Element: Copyable & Swift::Comparable & SendableMetatype,
     Tag == Collection.Max
 {
 

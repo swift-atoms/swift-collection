@@ -19,6 +19,9 @@ private struct IndexedSource<Value: Sendable>: Collection.`Protocol`, Sendable {
         self.elements = elements
         self.base = base
     }
+}
+
+extension IndexedSource {
 
     typealias Element = Value
 
