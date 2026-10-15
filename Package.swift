@@ -95,7 +95,6 @@ let package = Package(
                 .product(name: "Search", package: "swift-search"),
                 .product(name: "Predicate", package: "swift-predicate"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(name: "Order", package: "swift-order"),
                 .product(name: "Index", package: "swift-index"),
                 .product(name: "Ordinal", package: "swift-ordinal"),
                 .product(name: "Sequence", package: "swift-sequence"),
