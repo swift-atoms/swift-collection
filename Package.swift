@@ -12,10 +12,16 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-        .library(name: "Collection TaggedCollection Test Support", targets: ["Collection TaggedCollection Test Support"]),
+        .library(
+            name: "Collection TaggedCollection Test Support",
+            targets: ["Collection TaggedCollection Test Support"]
+        ),
         .library(name: "Collection", targets: ["Collection"]),
 
-        .library(name: "Collection Foundation Integration", targets: ["Collection Foundation Integration"]),
+        .library(
+            name: "Collection Foundation Integration",
+            targets: ["Collection Foundation Integration"]
+        ),
         .library(name: "Collection Test Support", targets: ["Collection Test Support"]),
     ],
     traits: [
@@ -77,17 +83,20 @@ let package = Package(
         .target(
             name: "Collection TaggedCollection Test Support",
             dependencies: [
-                .target(name: "Collection", condition: .when(traits: ["TaggedCollection"])),
+                .target(name: "Collection", condition: .when(traits: ["TaggedCollection"]))
             ],
             path: "Tests/Collection TaggedCollection Test Support"
         ),
-        .testTarget(name: "Collection Selection Tests", dependencies: [
-            .product(name: "Cardinal", package: "swift-cardinal"),
-            .product(name: "Predicate", package: "swift-predicate"),
-            .product(name: "Repetition", package: "swift-repetition"),
-            .target(name: "Collection"),
-            .product(name: "Search", package: "swift-search"),
-        ]),
+        .testTarget(
+            name: "Collection Selection Tests",
+            dependencies: [
+                .product(name: "Cardinal", package: "swift-cardinal"),
+                .product(name: "Predicate", package: "swift-predicate"),
+                .product(name: "Repetition", package: "swift-repetition"),
+                .target(name: "Collection"),
+                .product(name: "Search", package: "swift-search"),
+            ]
+        ),
         .target(
             name: "Collection",
             dependencies: [
@@ -109,7 +118,7 @@ let package = Package(
         .target(
             name: "Collection Foundation Integration",
             dependencies: [
-                .target(name: "Collection"),
+                .target(name: "Collection")
             ],
             path: "Sources/Collection Foundation Integration"
         ),
@@ -157,14 +166,15 @@ let package = Package(
 )
 
 for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
-    target.swiftSettings = (target.swiftSettings ?? []) + [
-        .strictMemorySafety(),
-        .enableUpcomingFeature("ExistentialAny"),
-        .enableUpcomingFeature("InternalImportsByDefault"),
-        .enableUpcomingFeature("MemberImportVisibility"),
-        .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
-        .enableUpcomingFeature("InferIsolatedConformances"),
-        .enableExperimentalFeature("Lifetimes"),
-        .treatAllWarnings(as: .error),
-    ]
+    target.swiftSettings =
+        (target.swiftSettings ?? []) + [
+            .strictMemorySafety(),
+            .enableUpcomingFeature("ExistentialAny"),
+            .enableUpcomingFeature("InternalImportsByDefault"),
+            .enableUpcomingFeature("MemberImportVisibility"),
+            .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+            .enableUpcomingFeature("InferIsolatedConformances"),
+            .enableExperimentalFeature("Lifetimes"),
+            .treatAllWarnings(as: .error),
+        ]
 }

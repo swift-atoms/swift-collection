@@ -1,3 +1,3 @@
 #if TaggedCollection
-@_exported public import Collection
+    @_exported public import Collection
 #endif

@@ -24,7 +24,8 @@ public struct __CollectionRotated<Base: RandomAccessCollection>: RandomAccessCol
         } else {
 
             let remainder = startOffset.difference.magnitude.value.rawValue % UInt(count)
-            let normalized = startOffset.difference.polarity == .negative && remainder != 0
+            let normalized =
+                startOffset.difference.polarity == .negative && remainder != 0
                 ? UInt(count) - remainder : remainder
             self._offset = Index::Index<Base.Element>.Offset(Int(normalized))
         }

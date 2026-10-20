@@ -1,11 +1,10 @@
-import Testing
-
 import Collection
+import Iterator
 import Order
 import Ownership
 import Property
-import Iterator
 import Tagged
+import Testing
 
 @Suite("Collection × Property")
 struct Collection_Property_Tests {

@@ -12,7 +12,9 @@ extension Collection {
     }
 }
 
-extension Collection.`Collections inherit ordered and repeatable element visits`.`Inherited element visits preserve collection contents and order` {
+extension Collection.`Collections inherit ordered and repeatable element visits`
+    .`Inherited element visits preserve collection contents and order`
+{
 
     @Test
     func `inherited forEach visits every element in order`() {

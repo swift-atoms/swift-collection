@@ -4,14 +4,14 @@ import Ordinal
 import Tagged
 import Testing
 
+@testable import Collection
+
 private func count<Element>(
     _ rawValue: UInt,
     for _: Element.Type
 ) -> Index::Index<Element>.Count {
     Index::Index<Element>.Count(_unchecked: Cardinal::Cardinal(rawValue))
 }
-
-@testable import Collection
 
 extension Collection {
     @Suite
@@ -22,7 +22,9 @@ extension Collection {
     }
 }
 
-extension Collection.`Rotated collections preserve indexed elements under normalized offsets`.`Rotated collection indices and elements follow the normalized offset` {
+extension Collection.`Rotated collections preserve indexed elements under normalized offsets`
+    .`Rotated collection indices and elements follow the normalized offset`
+{
 
     @Test
     func `rotation by 0 returns original order`() {
@@ -153,7 +155,9 @@ extension Collection.`Rotated collections preserve indexed elements under normal
     }
 }
 
-extension Collection.`Rotated collections preserve indexed elements under normalized offsets`.`Rotation preserves empty singleton and extreme offset behavior` {
+extension Collection.`Rotated collections preserve indexed elements under normalized offsets`
+    .`Rotation preserves empty singleton and extreme offset behavior`
+{
 
     @Test
     func `Rotating an empty collection preserves emptiness`() {
@@ -175,7 +179,9 @@ extension Collection.`Rotated collections preserve indexed elements under normal
     }
 }
 
-extension Collection.`Rotated collections preserve indexed elements under normalized offsets`.`Rotation composes across nested collections and slices` {
+extension Collection.`Rotated collections preserve indexed elements under normalized offsets`
+    .`Rotation composes across nested collections and slices`
+{
 
     @Test
     func `Nested rotations compose their offsets`() {
@@ -196,7 +202,9 @@ extension Collection.`Rotated collections preserve indexed elements under normal
     }
 }
 
-extension Collection.`Rotated collections preserve indexed elements under normalized offsets`.`Rotation preserves empty singleton and extreme offset behavior` {
+extension Collection.`Rotated collections preserve indexed elements under normalized offsets`
+    .`Rotation preserves empty singleton and extreme offset behavior`
+{
     @Test(arguments: [-1, -4, Int.min, Int.max])
     func `signed offsets normalize without integer overflow`(_ offset: Int) {
         let rotated = Collection.Rotated(base: [0, 1, 2], startOffset: .init(offset))

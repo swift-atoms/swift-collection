@@ -1,15 +1,15 @@
 @_exported public import Cardinal
-@_exported public import Order
 @_exported public import Index
+@_exported public import Order
 @_exported public import Ordinal
 @_exported public import Property
 @_exported public import Sequence
 @_exported public import Tagged
 
 #if Search
-@_exported public import Search
+    @_exported public import Search
 #endif
 
 #if Repetition
-@_exported public import Repetition
+    @_exported public import Repetition
 #endif
