@@ -72,7 +72,11 @@ extension Collection.Rotated {
     @inlinable
 
     public func distance(from start: Index, to end: Index) -> Int {
-        try! (end - start).difference.intValue()
+        do {
+            return try (end - start).difference.intValue()
+        } catch {
+            preconditionFailure("The distance between the indices does not fit in Int")
+        }
     }
 
     @inlinable
