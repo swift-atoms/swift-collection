@@ -109,7 +109,6 @@ let package = Package(
                 .product(name: "Ordinal", package: "swift-ordinal"),
                 .product(name: "Sequence", package: "swift-sequence"),
                 .product(name: "Tagged", package: "swift-tagged"),
-                .product(name: "Order", package: "swift-order"),
                 .product(name: "Property", package: "swift-property"),
             ],
             path: "Sources/Collection"
@@ -153,7 +152,6 @@ let package = Package(
                 .product(name: "Tagged", package: "swift-tagged"),
 
                 .target(name: "Collection"),
-                .product(name: "Order", package: "swift-order"),
                 .product(name: "Order", package: "swift-order"),
                 .product(name: "Ownership", package: "swift-ownership"),
                 .product(name: "Property", package: "swift-property"),
