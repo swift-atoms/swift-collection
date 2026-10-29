@@ -100,9 +100,9 @@ let package = Package(
         .target(
             name: "Collection",
             dependencies: [
-                .product(name: "Repetition", package: "swift-repetition"),
-                .product(name: "Search", package: "swift-search"),
-                .product(name: "Predicate", package: "swift-predicate"),
+                .product(name: "Repetition", package: "swift-repetition", condition: .when(traits: ["Repetition"])),
+                .product(name: "Search", package: "swift-search", condition: .when(traits: ["Search"])),
+                .product(name: "Predicate", package: "swift-predicate", condition: .when(traits: ["Repetition"])),
                 .product(name: "Cardinal", package: "swift-cardinal"),
                 .product(name: "Order", package: "swift-order"),
                 .product(name: "Index", package: "swift-index"),
