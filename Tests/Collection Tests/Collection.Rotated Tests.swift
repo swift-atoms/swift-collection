@@ -13,7 +13,7 @@ private func count<Element>(
     Index::Index<Element>.Count(_unchecked: Cardinal::Cardinal(rawValue))
 }
 
-extension Collection {
+extension `Collection Tests` {
     @Suite
     struct `Rotated collections preserve indexed elements under normalized offsets` {
         @Suite struct `Rotated collection indices and elements follow the normalized offset` {}
@@ -22,7 +22,7 @@ extension Collection {
     }
 }
 
-extension Collection.`Rotated collections preserve indexed elements under normalized offsets`
+extension `Collection Tests`.`Rotated collections preserve indexed elements under normalized offsets`
     .`Rotated collection indices and elements follow the normalized offset`
 {
 
@@ -155,7 +155,7 @@ extension Collection.`Rotated collections preserve indexed elements under normal
     }
 }
 
-extension Collection.`Rotated collections preserve indexed elements under normalized offsets`
+extension `Collection Tests`.`Rotated collections preserve indexed elements under normalized offsets`
     .`Rotation preserves empty singleton and extreme offset behavior`
 {
 
@@ -179,7 +179,7 @@ extension Collection.`Rotated collections preserve indexed elements under normal
     }
 }
 
-extension Collection.`Rotated collections preserve indexed elements under normalized offsets`
+extension `Collection Tests`.`Rotated collections preserve indexed elements under normalized offsets`
     .`Rotation composes across nested collections and slices`
 {
 
@@ -202,7 +202,7 @@ extension Collection.`Rotated collections preserve indexed elements under normal
     }
 }
 
-extension Collection.`Rotated collections preserve indexed elements under normalized offsets`
+extension `Collection Tests`.`Rotated collections preserve indexed elements under normalized offsets`
     .`Rotation preserves empty singleton and extreme offset behavior`
 {
     @Test(arguments: [-1, -4, Int.min, Int.max])

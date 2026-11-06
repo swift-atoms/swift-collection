@@ -5,14 +5,16 @@ import Testing
 
 @testable import Collection
 
-extension Collection {
+enum `Collection Tests` {}
+
+extension `Collection Tests` {
     @Suite
     struct `Collections inherit ordered and repeatable element visits` {
         @Suite struct `Inherited element visits preserve collection contents and order` {}
     }
 }
 
-extension Collection.`Collections inherit ordered and repeatable element visits`
+extension `Collection Tests`.`Collections inherit ordered and repeatable element visits`
     .`Inherited element visits preserve collection contents and order`
 {
 
