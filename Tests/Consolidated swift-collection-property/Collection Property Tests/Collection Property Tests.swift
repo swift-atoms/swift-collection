@@ -9,8 +9,8 @@ import Testing
 @Suite("Collection × Property")
 struct Collection_Property_Tests {
 
-    @Test("max and min preserve the first matching index")
-    func extrema() {
+    @Test
+    func `max and min preserve the first matching index`() {
         var source = Source([3, 1, 5, 5])
 
         #expect(source.max.index() == 2)
@@ -19,16 +19,16 @@ struct Collection_Property_Tests {
         #expect(source.min() == 1)
     }
 
-    @Test("custom order controls extrema")
-    func customOrder() {
+    @Test
+    func `custom order controls extrema`() {
         var source = Source([3, 1, 5])
 
         #expect(source.max(by: .descending) == 1)
         #expect(source.min(by: .descending) == 5)
     }
 
-    @Test("empty collections have no extrema")
-    func empty() {
+    @Test
+    func `empty collections have no extrema`() {
         var source = Source<Int>([])
 
         #expect(source.max.index() == nil)
@@ -37,8 +37,8 @@ struct Collection_Property_Tests {
         #expect(source.min() == nil)
     }
 
-    @Test("slice exposes the same collection value")
-    func slice() {
+    @Test
+    func `slice exposes the same collection value`() {
         var source = Source([3, 1, 5])
 
         #expect(source.slice.base.value[1] == 1)
