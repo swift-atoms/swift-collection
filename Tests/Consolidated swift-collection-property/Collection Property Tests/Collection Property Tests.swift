@@ -6,8 +6,8 @@ import Property
 import Tagged
 import Testing
 
-@Suite("Collection × Property")
-struct Collection_Property_Tests {
+@Suite
+struct `Collection × Property` {
 
     @Test
     func `max and min preserve the first matching index`() {
