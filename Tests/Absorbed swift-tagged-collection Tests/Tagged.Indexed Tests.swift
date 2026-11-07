@@ -45,13 +45,17 @@
         }
     }
 
-    @Suite struct `Tagged Indexed View Tests` {
-        @Suite struct Unit {}
-        @Suite struct `Edge Case` {}
-        @Suite struct Integration {}
-    }
+enum `Tagged.Indexed Tests` {}
 
-    extension `Tagged Indexed View Tests`.Unit {
+extension `Tagged.Indexed Tests` {
+        @Suite struct `Tagged Indexed View Tests` {
+            @Suite struct Unit {}
+            @Suite struct `Edge Case` {}
+            @Suite struct Integration {}
+        }
+}
+
+    extension `Tagged.Indexed Tests`.`Tagged Indexed View Tests`.Unit {
 
         @Test func `indexed view over a collection conformer`() {
             let source = IndexedSource([10, 20, 30])
@@ -69,7 +73,7 @@
         }
     }
 
-    extension `Tagged Indexed View Tests`.`Edge Case` {
+    extension `Tagged.Indexed Tests`.`Tagged Indexed View Tests`.`Edge Case` {
         @Test func emptyViewPreservesNonzeroBounds() {
             let nodes = Tagged<Node, IndexedSource<Int>>(IndexedSource([], base: 9))
             #expect(nodes.count == 0)
@@ -79,7 +83,7 @@
         }
     }
 
-    extension `Tagged Indexed View Tests`.Integration {
+    extension `Tagged.Indexed Tests`.`Tagged Indexed View Tests`.Integration {
         @Test func tagChangesIndexIdentityWithoutChangingSourcePositions() {
             let source = IndexedSource([10, 20, 30], base: 7)
             let nodes = Tagged<Node, IndexedSource<Int>>(source)

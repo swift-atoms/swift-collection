@@ -16,10 +16,15 @@ private func count<Element>(
 extension `Collection Tests` {
     @Suite
     struct `Rotated collections preserve indexed elements under normalized offsets` {
-        @Suite struct `Rotated collection indices and elements follow the normalized offset` {}
-        @Suite struct `Rotation preserves empty singleton and extreme offset behavior` {}
-        @Suite struct `Rotation composes across nested collections and slices` {}
     }
+}
+
+extension `Collection Tests`.`Rotated collections preserve indexed elements under normalized offsets` {
+    @Suite struct `Rotated collection indices and elements follow the normalized offset` {}
+
+    @Suite struct `Rotation preserves empty singleton and extreme offset behavior` {}
+
+    @Suite struct `Rotation composes across nested collections and slices` {}
 }
 
 extension `Collection Tests`.`Rotated collections preserve indexed elements under normalized offsets`

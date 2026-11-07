@@ -6,42 +6,46 @@ import Property
 import Tagged
 import Testing
 
-@Suite
-struct `Collection × Property` {
+enum `Collection Property Tests` {}
 
-    @Test
-    func `max and min preserve the first matching index`() {
-        var source = Source([3, 1, 5, 5])
+extension `Collection Property Tests` {
+    @Suite
+    struct `Collection × Property` {
 
-        #expect(source.max.index() == 2)
-        #expect(source.max() == 5)
-        #expect(source.min.index() == 1)
-        #expect(source.min() == 1)
-    }
+        @Test
+        func `max and min preserve the first matching index`() {
+            var source = Source([3, 1, 5, 5])
 
-    @Test
-    func `custom order controls extrema`() {
-        var source = Source([3, 1, 5])
+            #expect(source.max.index() == 2)
+            #expect(source.max() == 5)
+            #expect(source.min.index() == 1)
+            #expect(source.min() == 1)
+        }
 
-        #expect(source.max(by: .descending) == 1)
-        #expect(source.min(by: .descending) == 5)
-    }
+        @Test
+        func `custom order controls extrema`() {
+            var source = Source([3, 1, 5])
 
-    @Test
-    func `empty collections have no extrema`() {
-        var source = Source<Int>([])
+            #expect(source.max(by: .descending) == 1)
+            #expect(source.min(by: .descending) == 5)
+        }
 
-        #expect(source.max.index() == nil)
-        #expect(source.max() == nil)
-        #expect(source.min.index() == nil)
-        #expect(source.min() == nil)
-    }
+        @Test
+        func `empty collections have no extrema`() {
+            var source = Source<Int>([])
 
-    @Test
-    func `slice exposes the same collection value`() {
-        var source = Source([3, 1, 5])
+            #expect(source.max.index() == nil)
+            #expect(source.max() == nil)
+            #expect(source.min.index() == nil)
+            #expect(source.min() == nil)
+        }
 
-        #expect(source.slice.base.value[1] == 1)
+        @Test
+        func `slice exposes the same collection value`() {
+            var source = Source([3, 1, 5])
+
+            #expect(source.slice.base.value[1] == 1)
+        }
     }
 }
 
