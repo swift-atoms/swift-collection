@@ -74,7 +74,7 @@ extension `Tagged.Indexed Tests` {
     }
 
     extension `Tagged.Indexed Tests`.`Tagged Indexed View Tests`.`Edge Case` {
-        @Test func emptyViewPreservesNonzeroBounds() {
+        @Test func `empty view preserves nonzero bounds`() {
             let nodes = Tagged<Node, IndexedSource<Int>>(IndexedSource([], base: 9))
             #expect(nodes.count == 0)
             #expect(nodes.isEmpty)
@@ -84,7 +84,7 @@ extension `Tagged.Indexed Tests` {
     }
 
     extension `Tagged.Indexed Tests`.`Tagged Indexed View Tests`.Integration {
-        @Test func tagChangesIndexIdentityWithoutChangingSourcePositions() {
+        @Test func `tag changes index identity without changing source positions`() {
             let source = IndexedSource([10, 20, 30], base: 7)
             let nodes = Tagged<Node, IndexedSource<Int>>(source)
             let first: Index<Node> = nodes.startIndex
@@ -99,7 +99,7 @@ extension `Tagged.Indexed Tests` {
             #expect(source.startIndex.underlying.rawValue == 7)
         }
 
-        @Test func noncopyablePhantomTagDoesNotConstrainStoredCollection() {
+        @Test func `noncopyable phantom tag does not constrain stored collection`() {
             let values = Tagged<OwnedTag, IndexedSource<Int>>(IndexedSource([42]))
             #expect(values[values.startIndex] == 42)
         }
