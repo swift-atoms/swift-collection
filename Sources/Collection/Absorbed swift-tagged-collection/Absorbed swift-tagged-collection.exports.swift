@@ -1,4 +1,4 @@
 #if TaggedCollection
-    public import Index
-    public import Tagged
+    import Index
+    import Tagged
 #endif
