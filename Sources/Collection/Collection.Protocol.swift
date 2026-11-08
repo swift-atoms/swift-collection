@@ -1,7 +1,7 @@
-public import Index
-public import Sequence
 public import Cardinal
+public import Index
 public import Ordinal
+public import Sequence
 public import Tagged
 
 extension Collection {

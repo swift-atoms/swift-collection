@@ -45,15 +45,15 @@
         }
     }
 
-enum `Tagged.Indexed Tests` {}
+    enum `Tagged.Indexed Tests` {}
 
-extension `Tagged.Indexed Tests` {
+    extension `Tagged.Indexed Tests` {
         @Suite struct `Tagged Indexed View Tests` {
             @Suite struct Unit {}
             @Suite struct `Edge Case` {}
             @Suite struct Integration {}
         }
-}
+    }
 
     extension `Tagged.Indexed Tests`.`Tagged Indexed View Tests`.Unit {
 
