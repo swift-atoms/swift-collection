@@ -219,3 +219,62 @@ extension `Collection Tests`.`Rotated collections preserve indexed elements unde
         #expect(rotated.distance(from: rotated.endIndex, to: rotated.startIndex) == -3)
     }
 }
+
+extension `Collection Tests`.`Rotated collections preserve indexed elements under normalized offsets`
+    .`Rotation preserves empty singleton and extreme offset behavior`
+{
+    @Test
+    func `index before startIndex stops`() async {
+        await #expect(processExitsWith: .failure) {
+            let rotated = Collection.Rotated(base: [1, 2, 3], startOffset: .one)
+            _ = rotated.index(before: rotated.startIndex)
+        }
+    }
+
+    @Test
+    func `index after endIndex stops`() async {
+        await #expect(processExitsWith: .failure) {
+            let rotated = Collection.Rotated(base: [1, 2, 3], startOffset: .one)
+            _ = rotated.index(after: rotated.endIndex)
+        }
+    }
+
+    @Test
+    func `index offset past endIndex stops`() async {
+        await #expect(processExitsWith: .failure) {
+            let rotated = Collection.Rotated(base: [1, 2, 3], startOffset: .one)
+            _ = rotated.index(rotated.startIndex, offsetBy: 4)
+        }
+    }
+
+    @Test
+    func `index offset before startIndex stops`() async {
+        await #expect(processExitsWith: .failure) {
+            let rotated = Collection.Rotated(base: [1, 2, 3], startOffset: .one)
+            _ = rotated.index(rotated.startIndex, offsetBy: -1)
+        }
+    }
+
+    @Test
+    func `subscript at endIndex stops`() async {
+        await #expect(processExitsWith: .failure) {
+            let rotated = Collection.Rotated(base: [1, 2, 3], startOffset: .one)
+            _ = rotated[rotated.endIndex]
+        }
+    }
+
+    @Test
+    func `subscript on an empty rotation stops`() async {
+        await #expect(processExitsWith: .failure) {
+            let rotated = Collection.Rotated(base: [Int](), startOffset: .one)
+            _ = rotated[rotated.startIndex]
+        }
+    }
+
+    @Test
+    func `offset to endIndex is allowed`() {
+        let rotated = Collection.Rotated(base: [1, 2, 3], startOffset: .one)
+        #expect(rotated.index(rotated.startIndex, offsetBy: 3) == rotated.endIndex)
+        #expect(rotated.index(rotated.endIndex, offsetBy: -3) == rotated.startIndex)
+    }
+}

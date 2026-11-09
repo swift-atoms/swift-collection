@@ -47,30 +47,33 @@ extension Collection.Rotated {
 
     @inlinable
     public func index(after i: Index) -> Index {
-        i.successor.saturating()
+        precondition(i < endIndex, "Cannot advance past endIndex")
+        return i.successor.saturating()
     }
 
     @inlinable
     public func index(before i: Index) -> Index {
+        precondition(i > startIndex, "Cannot move before startIndex")
         do throws(Ordinal.Error) {
             return try i.predecessor.exact()
         } catch {
-            return .zero
+            preconditionFailure("Cannot move before startIndex")
         }
     }
 
     @inlinable
-
     public func index(_ i: Index, offsetBy distance: Int) -> Index {
+        let result: Index
         do throws(Ordinal.Error) {
-            return try i + Index.Offset(distance)
+            result = try i + Index.Offset(distance)
         } catch {
-            return self.endIndex
+            preconditionFailure("Index offset out of bounds")
         }
+        precondition(result <= endIndex, "Index offset out of bounds")
+        return result
     }
 
     @inlinable
-
     public func distance(from start: Index, to end: Index) -> Int {
         do {
             return try (end - start).difference.intValue()
@@ -81,12 +84,12 @@ extension Collection.Rotated {
 
     @inlinable
     public subscript(position: Index) -> Base.Element {
-
+        precondition(position < endIndex, "Index out of range")
         let physicalIndex: Index
         do throws(Ordinal.Error) {
             physicalIndex = try (position + _offset) % _count
         } catch {
-            physicalIndex = .zero
+            preconditionFailure("Index out of range")
         }
         return base[
             base.index(base.startIndex, offsetBy: Int(bitPattern: physicalIndex.position.rawValue))
