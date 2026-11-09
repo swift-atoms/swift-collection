@@ -21,6 +21,8 @@ extension Collection {
 
         subscript(_ position: Index) -> Element { get }
 
+        var count: Index::Index<Element>.Count { borrowing get }
+
         func index(after i: Index) -> Index
     }
 }
